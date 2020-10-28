@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mooop.board.dao.UserData"> 
+	<resultMap type="hashmap" id="user_data"> 
+		<result property="name" column="NAME" javaType="string" /> 
+		<result property="age" column="AGE" javaType="integer" /> 
+		<result property="job" column="JOB" javaType="string" /> 
+		<result property="car_yn" column="CAR_YN" javaType="string" /> 
+		<result property="home_yn" column="HOME_YN" javaType="string" /> 
+		<result property="marriage_yn" column="MARRIAGE_YN" javaType="string" /> 
+		<result property="hobby" column="HOBBY" javaType="string" /> 
+	</resultMap> 
+
+
+	<select id="getAllUserData" resultMap="user_data"> 
+		SELECT NAME,AGE,JOB,CAR_YN,HOME_YN,MARRIAGE_YN,HOBBY FROM USER_DATA
+	 </select> 
+	 
+	 <select id="getUserData" parameterType="com.mooop.board.model.UserParamVo" resultMap="user_data">
+	 	SELECT NAME,AGE,JOB,CAR_YN,HOME_YN,MARRIAGE_YN,HOBBY FROM USER_DATA WHERE NAME=#{name} AND AGE=#{age}
+	 </select>
+
+
+	<delete id="deleteUserData"  parameterType="com.mooop.board.model.UserParamVo" >
+		DELETE FROM USER_DATA WHERE NAME=#{name} AND AGE=#{age}
+	</delete>
+	
+	
+	<insert id="insertUserData" parameterType="com.mooop.board.model.UserIDataInsertVo" >
+		INSERT INTO USER_DATA 
+		(
+		  NAME,
+		  AGE,
+		  JOB,
+		  CAR_YN,
+		  HOME_YN,
+		  MARRIAGE_YN,
+		  HOBBY
+		) 
+		VALUES
+		(
+		  #{name},
+		  #{age},
+		  #{job},
+		  #{car_yn},
+		  #{home_yn},
+		  #{marriage_yn},
+		  #{hobby}
+		)
+	</insert>
+	
+
+</mapper>

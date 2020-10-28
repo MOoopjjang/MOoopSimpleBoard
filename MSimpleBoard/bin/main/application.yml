@@ -1,0 +1,35 @@
+
+
+
+
+spring:
+  thymeleaf:
+    prefix: classpath:template/
+    check-template-location: true
+    suffix: .html
+    mode: HTML
+    cache: false
+    template-resolver-order: 0
+
+
+
+
+logging:
+  path: logs
+  
+
+
+
+lateif:
+  timeout: 2
+  
+api:
+  key: X-API-KEY
+  value: test1234  
+  
+  
+  
+  
+  
+  
+  

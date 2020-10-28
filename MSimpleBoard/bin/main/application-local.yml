@@ -1,0 +1,29 @@
+
+spring:
+  datasource:
+    dbcp2:
+      url: jdbc:mysql://localhost:3306/TESTDB?allowPublicKeyRetrieval=true&useSSL=false
+      username: cwkim
+      password: 1111
+      driver-class-name: com.mysql.jdbc.Driver
+      
+      
+  jpa:
+     hibernate:
+       ddl-auto: none
+       naming:
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+     generate-ddl: false
+     show-sql: true
+     database: mysql
+     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+     properties:
+       hibernate:
+         format_sql: true
+
+
+   
+  
+debug: true
+
+

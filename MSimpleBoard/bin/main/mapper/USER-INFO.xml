@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mooop.board.dao.UserInfo"> 
+	<resultMap type="hashmap" id="user_info"> 
+		<result property="name" column="NAME" javaType="string" /> 
+		<result property="age" column="AGE" javaType="integer" /> 
+		<result property="address" column="ADDR" javaType="string" /> 
+		<result property="phone" column="PHONE" javaType="string" /> 
+	</resultMap> 
+
+
+	<select id="getAllUserInfo" resultMap="user_info"> 
+		SELECT NAME , AGE , ADDR , PHONE FROM USER_INFO
+	 </select> 
+	 
+	 <select id="getUserInfo" parameterType="com.mooop.board.model.UserParamVo" resultMap="user_info">
+	 	SELECT NAME , AGE , ADDR , PHONE FROM USER_INFO WHERE NAME=#{name} AND AGE=#{age}
+	 </select>
+
+
+	<delete id="deleteUserInfo" parameterType="com.mooop.board.model.UserParamVo" >
+		DELETE FROM USER_INFO WHERE NAME=#{name} AND AGE=#{age}
+	</delete>
+	
+
+</mapper>

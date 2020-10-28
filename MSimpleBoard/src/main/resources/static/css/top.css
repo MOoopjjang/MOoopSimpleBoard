@@ -1,0 +1,12 @@
+
+
+.top-label-type{
+	display:inline-block;
+}
+
+#logout-btn{
+	display:inline-block;
+	width:100px;
+	height:30px;
+	background-color: red;
+}

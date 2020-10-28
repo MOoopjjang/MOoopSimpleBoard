@@ -1,0 +1,110 @@
+
+.sidenav{
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: 90%;
+    background-color: #28AEFF;
+    overflow-x: hidden;
+}
+
+.top_div{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	
+	width:100%;
+	height:120px;
+}
+
+.top_div > div{
+	display:flex;
+	align-items:center;
+	justify-content: center;
+	width:80%;
+	height:80%;
+	border: 2px solid white;
+}
+
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 10px 6px 16px;
+  text-decoration: none;
+  color: white;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  
+  font-famliy : arial, helvetica, sans-serif;
+/*   font-style : italic; */
+  font-size : 14px;
+  line-height : 1.6;
+  font-weight : bold;
+}
+ 
+ 
+.sidenav .dropdown-btn {
+    display: flex;
+    height: 60px;
+    align-items: center;
+}
+
+.dropdown-btn img{
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+
+.dropdown-btn img:nth-of-type(2){
+    margin-left: auto;
+}
+
+.dropdown-btn p{
+    display: inline-block;
+    position: relative;
+    width: 60%;
+    font-size: 14px;
+    color: white;
+    margin-left: 10px;
+    vertical-align: middle;
+    margin-bottom: 0px;
+}
+
+
+.dropdown-container a{
+  font-size: 12px;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+
+/* Add an active class to the active dropdown button */
+.active {
+/*   background-color: green; */
+  color: white;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+/*   background-color: #A9A9A9; */
+  background-color: #0A6ECD;
+  padding-left: 8px;
+}
+
+
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}

@@ -1,0 +1,25 @@
+
+
+spring:
+  datasource:
+    dbcp2:
+      url: jdbc:mysql://192.168.0.48:3306/CWKIM_DB?useSSL=false
+      username: cwkim
+      password: cwkim1234
+      driver-class-name: com.mysql.jdbc.Driver
+      
+      
+  jpa:
+     hibernate:
+       ddl-auto: none
+       naming:
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+     generate-ddl: false
+     show-sql: true
+     database: mysql
+     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+     properties:
+       hibernate:
+         format_sql: true
+         
+         

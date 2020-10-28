@@ -1,0 +1,8 @@
+
+.content_wrap{
+	display: inline-block;
+	position: absolute;
+	
+	width: 900px;
+	height: 90%;
+}

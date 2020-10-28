@@ -1,0 +1,45 @@
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      
+  datasource:
+    dbcp2:
+      url: jdbc:h2:~/test;AUTO_SERVER=TRUE
+      username: cwkim
+      password: 1111
+      driver-class-name: org.h2.Driver
+      
+      
+  jpa:
+     hibernate:
+       ddl-auto: create
+       naming:
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+     generate-ddl: true
+     show-sql: false
+     database: H2
+     database-platform: H2
+     properties:
+       hibernate:
+         format_sql: true
+         
+                  
+         
+         
+#password 암호화 사용유     
+msp:
+  security:
+    password:
+      encoding: true    
+      
+  upload:                     ## 첨부파일 관련 설정
+    enable: true
+    path: /svc/dev/data/upload
+    maxSize: 1
+    maxCount: 1        
+         
+         
+

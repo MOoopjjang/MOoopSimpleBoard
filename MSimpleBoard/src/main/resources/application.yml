@@ -1,0 +1,71 @@
+
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+    context-path: /msb
+    
+    
+    
+spring:
+  servlet:
+    multipart:                      ## 파일 upload 제한설정
+      max-file-size: 100MB
+      max-request-size: 100MB
+        
+        
+        
+
+#spring:
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/jsp/
+#      suffix: .jsp
+#    static-path-pattern: /resources/**
+    
+    
+
+
+#spring:
+#  thymeleaf:
+#    prefix: classpath:template/
+#    check-template-location: true
+#    suffix: .html
+#    mode: HTML
+#    cache: false
+#    template-resolver-order: 0
+
+
+logging:
+  path: logs/
+  
+
+
+#Default 셋팅
+msb:
+  setting:
+    authorityMaxCount: 8
+    authorityMinCount: 3
+    pagingCount: 10
+
+
+
+lateif:
+  timeout: 2
+  
+api:
+  key: X-API-KEY
+  value: test1234  
+  
+  
+  
+  
+msp:
+  static:
+    mode: Y
+    
+security:
+  enable: Y
+  
+  
