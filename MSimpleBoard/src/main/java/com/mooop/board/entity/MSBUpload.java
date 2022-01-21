@@ -2,15 +2,10 @@ package com.mooop.board.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
+import com.mooop.board.enums.UPLOAD_P_TYPE;
+import com.mooop.board.enums.USER_STATUS;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -54,8 +49,12 @@ public class MSBUpload {
 	@Column(name = "ONAME" , nullable = false)
 	private String oname;
 
+//	@Column(name = "UTYPE" , nullable = false)
+//	private String utype;
+
 	@Column(name = "UTYPE" , nullable = false)
-	private String utype;
+	@Enumerated(EnumType.STRING)
+	private UPLOAD_P_TYPE utype;
 	
 	@Column(name = "SIZE" , nullable = false)
 	private Long size;

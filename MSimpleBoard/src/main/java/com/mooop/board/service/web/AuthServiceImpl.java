@@ -174,23 +174,6 @@ public class AuthServiceImpl implements AuthService{
 
 			return true;
 		}).orElse(false);
-
-		/*
-		return Optional.of(MSecurityUtil.username()).map(email->{
-			HistoryRespository hisRepository =  (HistoryRespository) daoManager.getRepository(DAO_TYPE.HISTORY);
-			AuthRepository authRepository =  (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
-			
-			MSBAuth auth = authRepository.findByEmail(email);
-			MSBHistory history = new MSBHistory();
-			history.setAuth(auth);
-			
-			auth.getHistorys().add(history);
-			
-			hisRepository.save(history);
-			return true;
-		}).orElse(false);
-		 */
-
 	}
 
 
@@ -206,7 +189,7 @@ public class AuthServiceImpl implements AuthService{
 					uploadData.setCname(ufv.getCname());
 					uploadData.setOname(ufv.getOname());
 					uploadData.setPath(ufv.getPath());
-					uploadData.setUtype(UPLOAD_P_TYPE.REG.getType());
+					uploadData.setUtype(UPLOAD_P_TYPE.REG);
 					uploadData.setSize(ufv.getSize());
 					uploadRepository.saveAndFlush(uploadData);
 				}else{	//변경

@@ -5,6 +5,7 @@ import com.mooop.board.domain.web.BoardItemVO;
 import com.mooop.board.domain.web.UploadFileInfoVO;
 import com.mooop.board.entity.MSBBoard;
 import com.mooop.board.entity.MSBUpload;
+import com.mooop.board.enums.UPLOAD_P_TYPE;
 import com.mooop.board.repo.BoardRepository;
 import com.mooop.board.repo.DaoManager;
 import com.mooop.board.repo.DaoManager.DAO_TYPE;
@@ -99,29 +100,9 @@ public class BoardServiceImpl implements BoardService{
 	public BoardItemVO getBoardItem(Long idx) throws Exception {
 		BoardRepository repository =  (BoardRepository) daoManager.getRepository(DAO_TYPE.BRD);
 		return repository.findById(idx).map(brd->{
-			
 			//set : hit count
 			brd.setHit(brd.getHit().intValue() + 1);
 			repository.flush();
-			
-			// get : 첨부 파일정보
-//			UploadRepository urRepository = (UploadRepository)daoManager.getRepository(DAO_TYPE.UPLOAD);
-//			List<UploadFileInfoVO> uploadList = Optional.ofNullable(urRepository.findAllByBrdIdx(brd.getId()))
-//							.filter(l->l.size() > 0)
-//							.map(l->{
-//								return l.stream()
-//									.map(mu->UploadFileInfoVO.builder().idx(mu.getIdx())
-//											.brd(mu.getBrd_idx())
-//											.path(mu.getPath())
-//											.cname(mu.getCname())
-//											.oname(mu.getOname())
-//											.size(mu.getSize()).build()
-//											)
-//									.collect(Collectors.toList());
-//							})
-//							.orElse(new ArrayList<>());
-							
-			
 			return BoardItemVO.builder()
 					.idx(brd.getId())
 					.email(brd.getUser().getAuth().getEmail())
@@ -219,32 +200,26 @@ public class BoardServiceImpl implements BoardService{
 //=================================================  PRIVATE =================================================	
 	
 	private void uploadFileSave(MSBBoard boardInfo , MultipartHttpServletRequest mpsr) {
-		
 		logger.info("########## uploadFileSave Start ##########");
-		CompletableFuture.supplyAsync(()->{
-			// 첨부파일 disk에 저장
-			Iterator<String> iter = mpsr.getFileNames();
-			List<MultipartFile> files = new ArrayList<>();
-			while(iter.hasNext()) {
-				files.add(mpsr.getFile(iter.next()));
-			}
-			return attachFileService.upload(files , boardInfo.getUser().getAuth().getEmail());
-		}).thenApply((list)->{
-			//첨부파일 정보 DB에 저장
-			UploadRepository uploadRepository = (UploadRepository) daoManager.getRepository(DAO_TYPE.UPLOAD);
-			list.stream().forEach(ufiv->{
-				MSBUpload upload = new MSBUpload();
-				upload.setBrd_idx(boardInfo.getId());
-				upload.setCname(ufiv.getCname());
-				upload.setOname(ufiv.getOname());
-				upload.setPath(ufiv.getPath());
-				upload.setSize(ufiv.getSize());
-				
-				uploadRepository.save(upload);
-			});
-			return true;
-		}).thenAccept((v)->logger.info("##### Upload File Complete : "+v+" #####"));
-		
+
+		UploadRepository uploadRepository = (UploadRepository) daoManager.getRepository(DAO_TYPE.UPLOAD);
+		Iterator<String> iter = mpsr.getFileNames();
+		List<MultipartFile> files = new ArrayList<>();
+		while(iter.hasNext()) {
+			files.add(mpsr.getFile(iter.next()));
+		}
+		List<UploadFileInfoVO> list = attachFileService.upload(files , boardInfo.getUser().getAuth().getEmail());
+		for(UploadFileInfoVO ufiv : list){
+			MSBUpload upload = new MSBUpload();
+			upload.setBrd_idx(boardInfo.getId());
+			upload.setCname(ufiv.getCname());
+			upload.setOname(ufiv.getOname());
+			upload.setUtype(UPLOAD_P_TYPE.BOARD);
+			upload.setPath(ufiv.getPath());
+			upload.setSize(ufiv.getSize());
+
+			uploadRepository.save(upload);
+		}
 		logger.info("########## uploadFileSave End ##########");
 	}
 

@@ -9,9 +9,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
-<link href="${pageContext.request.contextPath}/resources/asset/summernote-0.8.18-dist/summernote.css" rel="stylesheet">
-<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/registry.css?ver=1">
+<link rel='stylesheet' type="text/css" href="/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+<link href="/resources/asset/summernote-0.8.18-dist/summernote.css" rel="stylesheet">
+<link rel='stylesheet' type="text/css" href="/resources/css/registry.css?ver=1">
 
 <style>
 	p{
@@ -163,15 +163,15 @@
 		    --------------------------------------------------------------
 -->
 
-		<script src="${pageContext.request.contextPath}/resources/asset/popper/popper.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/mstringutil.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/network.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/uicommon.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/asset/summernote-0.8.18-dist/summernote.js"></script>
+		<script src="/resources/asset/popper/popper.min.js"></script>
+		<script src="/resources/asset/jquery-3.4.1.min.js"></script>
+		<script src="/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+		<script src="/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
+		<script src="/resources/js/common.js"></script>
+		<script src="/resources/js/mstringutil.js"></script>
+		<script src="/resources/js/network.js"></script>
+		<script src="/resources/js/uicommon.js"></script>
+		<script src="/resources/asset/summernote-0.8.18-dist/summernote.js"></script>
 		<script type="text/javascript">
 			var $email = document.getElementById('email');
 			var $nick = document.getElementById('nick');
@@ -244,7 +244,7 @@
 		    	
 		    	startLoading('등록중...');
 		    	$.ajax({
-			        url : '${pageContext.request.contextPath}/board/api/register',
+			        url : '/board/api/register',
 					headers: {
 			        	"X-CSRF-TOKEN": "${_csrf.token}"
 			        },
@@ -259,7 +259,7 @@
 						stopLoading();
 						if(response.result === 'OK'){
 							alert('등록되었습니다..!');
-							movePage('${pageContext.request.contextPath}/board/');
+							movePage('/board/');
 						}else{
 							alert('오류가 발생하였습니다.!');
 						}
@@ -301,7 +301,7 @@
 		    	
 		    	startLoading('등록중...');
 		    	$.ajax({
-					url : '${pageContext.request.contextPath}/board/api/save',
+					url : '/board/api/save',
 					headers: {
 			        	"X-CSRF-TOKEN": "${_csrf.token}"
 			        },
@@ -316,7 +316,7 @@
 						stopLoading();
 						if(response.result === 'OK'){
 							alert('등록되었습니다..!');
-							movePage('${pageContext.request.contextPath}/board/');
+							movePage('/board/');
 						}else{
 							alert('오류가 발생하였습니다.!');
 						}
@@ -346,7 +346,7 @@
 		    	}
 				startLoading('삭제중...');
 		    	$.ajax({
-					url : '${pageContext.request.contextPath}/board/api/remove',
+					url : '/board/api/remove',
 					headers: {
 			        	"X-CSRF-TOKEN": "${_csrf.token}"
 			        },
@@ -357,7 +357,7 @@
 						stopLoading();
 						if(response.result === 'OK'){
 							alert('삭제되었습니다..!');
-							movePage('${pageContext.request.contextPath}/board/');
+							movePage('/board/');
 						}else{
 							alert('오류가 발생하였습니다.!');
 						}
@@ -378,7 +378,7 @@
 				
 				startLoading('삭제중...');
 				$.ajax({
-					url : '${pageContext.request.contextPath}/board/api/upload/remove/'+_idx,
+					url : '/board/api/upload/remove/'+_idx,
 					headers: {
 						"X-CSRF-TOKEN": "${_csrf.token}"
 					},
