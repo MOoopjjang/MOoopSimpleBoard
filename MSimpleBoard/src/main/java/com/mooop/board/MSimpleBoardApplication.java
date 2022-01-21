@@ -2,12 +2,14 @@ package com.mooop.board;
 
 import javax.annotation.PostConstruct;
 
+import com.mooop.board.config.property.ConfirmProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
@@ -42,8 +44,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-@EnableConfigurationProperties({SettingProperty.class , MUploadProperties.class})
+@EnableConfigurationProperties({SettingProperty.class , MUploadProperties.class , ConfirmProperties.class})
 @EnableAspectJAutoProxy
+@ServletComponentScan
 @SpringBootApplication
 public class MSimpleBoardApplication {
 	
@@ -74,7 +77,7 @@ public class MSimpleBoardApplication {
 			/**
 			 *  H2 profile  일경우에만 test용 데이타 insert
 			 */
-			if(env.getActiveProfiles()[0].equals("h2")) {
+			if(staticMode.equals("Y")) {
 				DummyDataManager.createBoardDummyData(daoManager);
 //				DummyDataManager.createEventDummyData(daoManager);
 				DummyDataManager.createSettingDummyData(daoManager);

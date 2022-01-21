@@ -10,7 +10,8 @@
 
 
 .form-container{
-	width: 500px;
+	width: 600px;
+	max-width: 600px;
 	padding: 10px;
 	background-color: white;
 }
@@ -28,8 +29,8 @@
 	width:49.4%;
 }
 
- .form-container input[name=email] , .form-container input[name=nick]{
-	width:70%;
+ .form-container input[name=email] , .form-container input[name=nick] , .form-container input[name=name]{
+	width:90%;
 }
 
 

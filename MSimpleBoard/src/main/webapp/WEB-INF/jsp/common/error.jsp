@@ -6,7 +6,7 @@
 <html lang="ko">
 	<head>
 		<meta charset="UTF-8" >
-		<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+		<link rel='stylesheet' type="text/css" href="/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
 		<title>MSimpleBoard</title>
 		<style type="text/css">
 			.main-wrap{
@@ -61,13 +61,13 @@
 		
 		<c:remove var="vr" scope="page" />
 		
-		 <script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>  
-		<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>  
-		<script src="${pageContext.request.contextPath}/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>  
-		<script src="${pageContext.request.contextPath}/resources/js/mstringutil.js"></script> 
-		<script src="${pageContext.request.contextPath}/resources/js/network.js"></script> 
-		<script src="${pageContext.request.contextPath}/resources/js/uicommon.js"></script>
+		 <script src="/resources/asset/jquery-3.4.1.min.js"></script>
+		<script src="/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+		<script src="/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
+		<script src="/resources/js/common.js"></script>
+		<script src="/resources/js/mstringutil.js"></script>
+		<script src="/resources/js/network.js"></script>
+		<script src="/resources/js/uicommon.js"></script>
 		<script type="text/javascript">
 			
 			function goHome(){

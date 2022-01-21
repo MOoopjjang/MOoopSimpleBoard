@@ -174,6 +174,13 @@ public class TestController{
 		mav.setViewName("test/simple1");
 		return mav;
 	}
-	
+
+
+	@GetMapping("/edit")
+	public ModelAndView edit(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("test/edit_tst");
+		return mav;
+	}
 
 }

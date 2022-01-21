@@ -43,4 +43,19 @@ public class MFileUtil {
 		return true;
 	}
 
+
+	/**
+	 * 파일이름에서 확장자를 분리한다.
+	 *
+	 * @param originalName
+	 * @return
+	 */
+	public static String parseExtension(String originalName){
+		String[] ss = originalName.split(".");
+		if(ss.length >= 2){
+			return ss[ss.length-1];
+		}
+		return "";
+	}
+
 }

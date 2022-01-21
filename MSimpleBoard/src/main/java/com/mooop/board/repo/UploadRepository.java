@@ -14,4 +14,8 @@ public interface UploadRepository extends JpaRepository<MSBUpload, Long>{
 	@Query("select u from MSBUpload u WHERE u.brd_idx=:brd_idx")
 	List<MSBUpload> findAllByBrdIdx(@Param("brd_idx") Long brd_idx);
 
+	@Query("select u from MSBUpload u WHERE u.brd_idx=:brd_idx and u.utype=:utype")
+	MSBUpload findByBrdIdxAndUtype(@Param("brd_idx") Long brd_idx , @Param("utype") String utype);
+
+
 }

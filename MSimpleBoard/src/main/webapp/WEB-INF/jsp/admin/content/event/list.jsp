@@ -27,7 +27,7 @@
 <div class="content_wrap">
 	<div class="container">
 		<div> 
-			<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #084B8A;">
+			<nav class="navbar navbar-expand-sm navbar-dark" style="border-top:1px solid #adb5bd;">
 				<form class="form-inline" style="vertical-align: middle;margin-bottom: 0;">
 					<select id="searchCategory" class="form-control">
 						<option value="title" <c:if test="${searchInfo.getCategory() !=null && searchInfo.getCategory()=='title'}">selected</c:if>>타이틀</option>
@@ -36,13 +36,13 @@
 						<option value="enable" <c:if test="${searchInfo.getCategory() !=null && searchInfo.getCategory()=='enable'}">selected</c:if>>상태</option>
 					</select>
 					<input  type="text" class="form-control" style="margin-left:10px;" name="searchText" id="searchText" placeholder="Search" />
-					<button type="button" class="btn btn-primary" onclick="searchFunc()"  style="margin-left:4px;">검색</button>
+					<img src="${pageContext.request.contextPath}/resources/img/ico_search_s.svg" style="margin-left:10px;cursor:pointer;" onclick="search('${viewInfo.getMode()}')" />
 				</form>
 			</nav>
 		</div> 
 		
 		<div>
-			<table class="table table-striped" style="border: 1px solid #ddd;">
+			<table class="msb-com-table">
 				<thead>
 					<th style="width:10%;">#</th>
 					<th style="width:40%;">제목</th>
@@ -54,10 +54,10 @@
 				<tbody>
 					<c:forEach var="item"  	items="${items}" varStatus="status">
 						<tr>
-							<td style="width:10%;"><a href="javascript:void(0);" onclick="moveDViewPage('${item.getIdx()}')" style="color:black;">${status.count}</a></td>
+							<td style="width:10%;">${status.count}</td>
 							<td style="width:40%;"><a href="javascript:void(0);" onclick="moveDViewPage('${item.getIdx()}')" style="color:black;">${item.getTitle()}</a></td>
-							<td style="width:20%;"><a href="javascript:void(0);" onclick="moveDViewPage('${item.getIdx()}')" style="color:black;">${sdf.format(item.getDtStart())}</a></td>
-							<td style="width:20%;"><a href="javascript:void(0);" onclick="moveDViewPage('${item.getIdx()}')" style="color:black;">${sdf.format(item.getDtEnd())}</a></td>
+							<td style="width:20%;">${sdf.format(item.getDtStart())}</td>
+							<td style="width:20%;">${sdf.format(item.getDtEnd())}</td>
 							<td style="width:10%;"><a href="#" style="color:black;">
 								<c:if test="${item.getEnable()=='N'}">
 									<img alt="" src="${pageContext.request.contextPath}/resources/img/icon_lock2.png" style="display: inline-block;width:20px;height:20px;">
@@ -106,35 +106,35 @@
 <c:remove var="sdf" scope="page" />
 
 <script type="text/javascript">
-	var $searchCategory = document.getElementById('searchCategory');
-	var $searchText = document.getElementById('searchText');
+	let $searchCategory = document.getElementById('searchCategory');
+	let $searchText = document.getElementById('searchText');
 	
 	
 	/* 검색 */
 	function searchFunc(){
 		startLoading('검색중...');
-		
-		var searchOptions = null;
-		for(var i = 0 ; i < $searchCategory.options.length ; i++){
+
+		let searchOptions = null;
+		for(let i = 0 ; i < $searchCategory.options.length ; i++){
 			if($searchCategory.options[i].selected === true){
 				searchOptions = $searchCategory.options[i].value;
 				break;
 			}
 		}
-		
-		var searchData = {
+
+		let searchData = {
 			'category':searchOptions,
 			'text':$searchText.value,
 			'page':0,
 			'size':10
 		}
-		
-		var $searchForm = document.createElement('form');
+
+		let $searchForm = document.createElement('form');
 		$searchForm.setAttribute('action' , '${pageContext.request.contextPath}/admin/event/list');
 		$searchForm.setAttribute('method' , 'GET');
 		
-		for(var k in searchData){
-			var hiddenField = document.createElement('input');
+		for(let k in searchData){
+			let hiddenField = document.createElement('input');
 			hiddenField.setAttribute('type' , 'hidden');
 			hiddenField.setAttribute('name' , k);
 			hiddenField.setAttribute('value' , searchData[k]);

@@ -49,7 +49,7 @@ public class BoardController extends MSBBaseController{
 	 */
 	@GetMapping("/")
 	public String root(HttpServletRequest request) {
-		return Defines.AUTHENTICATED_REDIRECT_URL;
+		return "redirect:"+Defines.AUTHENTICATED_REDIRECT_URL;
 	}
 	
 	

@@ -38,7 +38,7 @@ import lombok.Setter;
 @DynamicInsert
 public class MSBBoard implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BRD_IDX")
 	private Long id;
 	

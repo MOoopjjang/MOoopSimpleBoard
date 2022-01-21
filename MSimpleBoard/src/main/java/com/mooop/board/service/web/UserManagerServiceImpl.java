@@ -3,7 +3,7 @@ package com.mooop.board.service.web;
 import java.util.Optional;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mooop.board.enums.USER_STATUS;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,14 +22,14 @@ import com.mooop.board.utils.MStringUtil;
 
 @Service("userManagerService")
 public class UserManagerServiceImpl implements UserManagerService{
-	@Autowired
-	DaoManager daoManager;
+	private final DaoManager daoManager;
+		public UserManagerServiceImpl(DaoManager daoManager) {
+		this.daoManager = daoManager;
+	}
 	
 	
 	Function<MSBAuth , UserItemVO> convertAtoU = (auth)->{
-		
-		MSBHistory his = auth.getHistorys().stream()
-				.sorted((s1,s2)->s1.getDtLogin().compareTo(s2.getDtLogin())).findFirst().get();
+		MSBHistory his = auth.getHistory();
 		
 		UserItemVO uivo = new UserItemVO();
 		uivo.setEmail(auth.getEmail());
@@ -37,7 +37,7 @@ public class UserManagerServiceImpl implements UserManagerService{
 		uivo.setRole(auth.getUserRole().getRole());
 		uivo.setStatus(auth.getStatus().getStatus());
 		uivo.setEnable(auth.getEnable());
-		uivo.setLastLogin(MDateUtil.convertDateTimeString(his.getDtLogin()));
+		uivo.setLastLogin(MDateUtil.convertDateTimeString(his.getCreateDt()));
 		
 		uivo.setUserName(auth.getUser().getUserName());
 		uivo.setNickName(auth.getUser().getUserNick());
@@ -45,6 +45,8 @@ public class UserManagerServiceImpl implements UserManagerService{
 		uivo.setDesc(auth.getUser().getUserDesc());
 		return uivo;
 	};
+
+
 
 	@Override
 	public Page<UserItemVO> getUserList(String category, String text, Integer page, Integer size) {
@@ -66,8 +68,6 @@ public class UserManagerServiceImpl implements UserManagerService{
 		}else {
 			info = authRepository.findAll(PageRequest.of(page, size, sort)).map(convertAtoU);
 		}
-		
-		
 		return info;
 	}
 
@@ -76,16 +76,14 @@ public class UserManagerServiceImpl implements UserManagerService{
 		AuthRepository authRepository = (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
 		return Optional.ofNullable(authRepository.findByEmail(email))
 					.map(auth->{
-						MSBHistory his = auth.getHistorys().stream()
-								.sorted((s1,s2)->s1.getDtLogin().compareTo(s2.getDtLogin())).findFirst().get();
-						
+						MSBHistory his = auth.getHistory();
 						UserItemVO uivo = new UserItemVO();
 						uivo.setEmail(auth.getEmail());
 						uivo.setPassword(auth.getPassword());
 						uivo.setRole(auth.getUserRole().getRole());
 						uivo.setStatus(auth.getStatus().getStatus());
 						uivo.setEnable(auth.getEnable());
-						uivo.setLastLogin(MDateUtil.convertDateTimeString(his.getDtLogin()));
+						uivo.setLastLogin(MDateUtil.convertDateTimeString(his.getCreateDt()));
 						
 						uivo.setUserName(auth.getUser().getUserName());
 						uivo.setNickName(auth.getUser().getUserNick());
@@ -101,6 +99,8 @@ public class UserManagerServiceImpl implements UserManagerService{
 		AuthRepository authRepository = (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
 		return Optional.ofNullable(authRepository.findByEmail(uivo.getEmail())).map(auth->{
 			auth.setUserRole( USER_ROLES.valueOf( uivo.getRole()));
+			USER_STATUS setStatus = (uivo.getEnable().equals("Y"))?USER_STATUS.ACTIVE:USER_STATUS.BLOCK;
+			auth.setStatus(setStatus);
 			auth.setEnable(uivo.getEnable());
 			authRepository.flush();
 			return true;

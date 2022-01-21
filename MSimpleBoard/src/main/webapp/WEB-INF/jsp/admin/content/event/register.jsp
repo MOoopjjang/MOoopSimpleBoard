@@ -9,6 +9,7 @@
 <%@ page import="com.mooop.board.domain.web.AdmViewInfoVO" %>
 
 <link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/asset/summernote-0.8.18-dist/summernote.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/asset/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
 <link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/registry.css">
 
@@ -28,6 +29,7 @@
 <c:set var="viewInfo" value="<%= admViewInfo %>" scope="page" />
 <c:set var="item" value="<%= item %>" scope="page" />
 <c:set var="idx" value="<%= idx %>" scope="page" />
+<c:set var="mode" value="<%= admViewInfo.getMode() %>" scope="session" />
 
 <div class="content_wrap" style="width:900px;" >
 	<div class="container" style="height:100%;">
@@ -95,11 +97,9 @@
 		         </div>
 		         
 		         <div class='col-sm-12' style="margin-top:10px;">
-		         	<textarea id="content" class="form-control col-sm-12" rows="6" placeholder="이벤트 내용"
-		         	 <c:if test="${viewInfo.getMode()=='dview'}">
-                     disabled = 'true'
-                     </c:if>
-		         	><c:if test="${item!=null && item.getContent()!=null }">${item.getContent()}</c:if></textarea>
+		         	<textarea id="content" name="content">
+		         	<c:if test="${item!=null && item.getContent()!=null }">${item.getContent()}</c:if>
+					</textarea>
 		         </div>
 		         
 		         <div class="col-sm-12" style="margin-top:4px;">
@@ -126,23 +126,27 @@
 <c:remove var="item" scope="page" />
 <c:remove var="idx" scope="page" />
 
-<script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>  
-<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>  
+<script src="${pageContext.request.contextPath}/resources/asset/popper/popper.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/asset/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/asset/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.ko.js"></script>
-<script src="${pageContext.request.contextPath}/resources/asset/moment.min.js"></script> <%-- 날짜 ,시간 관련 library --%>
+<script src="${pageContext.request.contextPath}/resources/asset/moment.min.js"></script><%-- 날짜 ,시간 관련 library --%>
 <script src="${pageContext.request.contextPath}/resources/js/mstringutil.js"></script>
+<script src="${pageContext.request.contextPath}/resources/asset/summernote-0.8.18-dist/summernote.js"></script>
 <script type="text/javascript">
 
-	var $eventStart = document.getElementById('eventStart');
-	var $eventEnd = document.getElementById('eventEnd');
-	var $disable = document.getElementById('disable');
-	var $title = document.getElementById('title');
-	var $content = document.getElementById('content');
-	var $btnAction = document.getElementById('btnAction');
-	
+	let $eventStart = document.getElementById('eventStart');
+	let $eventEnd = document.getElementById('eventEnd');
+	let $disable = document.getElementById('disable');
+	let $title = document.getElementById('title');
+	let $content = document.getElementById('content');
+	let $btnAction = document.getElementById('btnAction');
+
+
+
 	function actionFunc(_btnText , _idx){
-		var trimText = trim(_btnText);
+		let trimText = trim(_btnText);
 		if(trimText === '등록'){
 			register();
 		}else if(trimText === '편집'){
@@ -155,9 +159,9 @@
 	
 	/* 등록 */
 	function register(){
-		var fmt = 'YYYY-MM-DD HH:mm';
-		var strEnabled = ($disable.checked === true)?'N':'Y';
-		var registerData = {
+		let fmt = 'YYYY-MM-DD HH:mm';
+		let strEnabled = ($disable.checked === true)?'N':'Y';
+		let registerData = {
 			'idx':0,
 			'title':trim($title.value),
 			'content':trim($content.value),
@@ -168,14 +172,14 @@
 		
 		startLoading('등록중...');
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/admin/api/event/register',
+			url : '${pageContext.request.contextPath}/admin/api/event/register',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
-	        method : "post",
-	        data : JSON.stringify(registerData),
-	        contentType : 'application/json',
-	        success : function(response){
+			method : "post",
+			data : JSON.stringify(registerData),
+			contentType : 'application/json',
+			success : function(response){
 				stopLoading();
 				if(response.result === 'OK'){
 					alert('공지사항이 등록되었습니다.');
@@ -184,12 +188,12 @@
 					alert('오류가 발생하였습니다.!');
 				}
 			},
-	        error : function( response ){
+			error : function( response ){
 				stopLoading();
 				alert('falied');
 			}
-	      
-	    });
+
+		});
 		
 	}
 	
@@ -207,9 +211,9 @@
 	
 	
 	function update(_idx){
-		var fmt = 'YYYY-MM-DD HH:mm';
-		var strEnabled = ($disable.checked === true)?'N':'Y';
-		var updateData = {
+		let fmt = 'YYYY-MM-DD HH:mm';
+		let strEnabled = ($disable.checked === true)?'N':'Y';
+		let updateData = {
 			'idx':_idx,
 			'title':trim($title.value),
 			'content':trim($content.value),
@@ -220,14 +224,14 @@
 		
 		startLoading('업데이트중...');
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/admin/api/event/update',
+			url : '${pageContext.request.contextPath}/admin/api/event/update',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
-	        method : "post",
-	        data : JSON.stringify(updateData),
-	        contentType : 'application/json',
-	        success : function(response){
+			method : "post",
+			data : JSON.stringify(updateData),
+			contentType : 'application/json',
+			success : function(response){
 				stopLoading();
 				if(response.result === 'OK'){
 					alert('공지사항이 변경되었습니다.');
@@ -236,30 +240,30 @@
 					alert('오류가 발생하였습니다.!');
 				}
 			},
-	        error : function( response ){
+			error : function( response ){
 				stopLoading();
 				alert('falied');
 			}
-	      
-	    });
+
+		});
 	}
 	
 	
 	function itemDelete(_idx){
-		var deleteData = {
+		let deleteData = {
 				'idx':_idx
 			}
 			
 		startLoading('삭제 진행중...');
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/admin/api/event/delete',
+			url : '${pageContext.request.contextPath}/admin/api/event/delete',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
-	        method : "post",
-	        data : JSON.stringify(deleteData),
-	        contentType : 'application/json',
-	        success : function(response){
+			method : "post",
+			data : JSON.stringify(deleteData),
+			contentType : 'application/json',
+			success : function(response){
 				stopLoading();
 				if(response.result === 'OK'){
 					alert('공지사항이 삭제되었습니다.');
@@ -268,17 +272,16 @@
 					alert('오류가 발생하였습니다.!');
 				}
 			},
-	        error : function( response ){
+			error : function( response ){
 				stopLoading();
 				alert('falied');
 			}
-	      
-	    });
+
+		});
 	}
 	
 
 	(function init(){
-		
 	 	$("#datetimepicker1").datetimepicker({
 	        language:  'ko',
 	        weekStart: 1,
@@ -288,9 +291,9 @@
 			startView: 2,
 			minView: 2,
 			forceParse: 0
-	    }); 
-	 	
-	 	
+	    });
+
+
 	 	$("#datetimepicker2").datetimepicker({
 	        language:  'ko',
 	        weekStart: 1,
@@ -300,6 +303,32 @@
 			startView: 2,
 			minView: 2,
 			forceParse: 0
-	    }); 
+	    });
+
+		$('#content').summernote({
+			placeholder:'자유롭게 작성해주세요!..불쾌감을 주는글은 삼가해주세요',
+			tabsize: 2,
+			height:300,
+			minWidth:null,
+			minHeight:null,
+			focus: true,
+			lang:'ko-KR',
+			toolbar: [
+				['style', ['style']],
+				['font', ['bold', 'underline', 'clear']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['table', ['table']],
+				['insert', ['link', 'picture', 'video']],
+				['view', ['fullscreen', 'codeview', 'help']]
+			]
+		});
+
+		/* 등록모드가 아니면 편집기능 disable */
+		if('${mode}' !== 'register'){
+			$('#content').summernote('disable');
+		}
 	})();
+
+
 </script>

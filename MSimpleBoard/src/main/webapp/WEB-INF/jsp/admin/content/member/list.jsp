@@ -31,7 +31,7 @@
     <div class="container">
 		<c:if test="${viewInfo.getMode()=='ALL' }">
 		<div>
-			<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #084B8A;">
+			<nav class="navbar navbar-expand-sm navbar-dark" style="border-top:1px solid #adb5bd;">
 				<form class="form-inline" style="vertical-align: middle;margin-bottom: 0px;">
 					<select class="form-control" id="searchCategory">
 						<option value="role" <c:if test="${searchInfo.getCategory()!=null && searchInfo.getCategory()=='role'}">selected</c:if>>role</option>
@@ -41,13 +41,14 @@
 					</select>
 					
 					<input class="form-control" style="margin-left:4px;" type="text" id="searchText" name="searchText" placeholder="검색" />
-					<button class="btn btn-primary" style="margin-left:10px;" type="button" id="btnSearch" onclick="search('${viewInfo.getMode()}')" style="">검색</button>
+<%--					<button class="btn btn-primary" style="margin-left:10px;" type="button" id="btnSearch" onclick="search('${viewInfo.getMode()}')" style="">검색</button>--%>
+					<img src="/resources/img/ico_search_s.svg" style="margin-left:10px;cursor:pointer;" onclick="search('${viewInfo.getMode()}')" />
 				</form>
 			</nav>
 		</div>
 		</c:if>
 		<div>
-			<table class="table table-striped" style="border:1px solid #ddd;">
+			<table class="msb-com-table">
 				<thead class="thead">
 					<th>#</th>
 					<th>이름</th>
@@ -62,16 +63,16 @@
 				<tbody>
 					<c:forEach var="item" items="${items}" varStatus="status">
 					<tr>
-						<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getEmail()}','${viewInfo.getCallUrl()}')" style="color:black;">${status.count}</a></td>
+						<td>${status.count}</td>
 						<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getEmail()}','${viewInfo.getCallUrl()}')" style="color:black;">${item.getUserName()}</a></td>
-						<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getEmail()}','${viewInfo.getCallUrl()}')" style="color:black;">${item.getEmail()}</a></td>
-						<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getEmail()}','${viewInfo.getCallUrl()}')" style="color:black;">${item.getNickName()}</a></td>
-						<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getEmail()}','${viewInfo.getCallUrl()}')" style="color:black;">${item.getRole()}</a></td>
-						<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getEmail()}','${viewInfo.getCallUrl()}')" style="color:black;">${item.getLastLogin()}</a></td>
-						<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getEmail()}','${viewInfo.getCallUrl()}')" style="color:black;">${item.getStatus()}</a></td>
+						<td>${item.getEmail()}</td>
+						<td>${item.getNickName()}</td>
+						<td>${item.getRole()}</td>
+						<td>${item.getLastLogin()}</td>
+						<td>${item.getStatus()}</td>
 						<td>
 							<c:if test="${item.getEnable()=='N'}">
-								<img alt="" src="${pageContext.request.contextPath}/resources/img/icon_lock2.png" style="display:inline-block;width:20px;height:20px;">
+								<img alt="" src="/resources/img/icon_lock2.png" style="display:inline-block;width:20px;height:20px;">
 							</c:if>
 						</td>
 					</tr>
@@ -86,7 +87,7 @@
 					<ul class="pagination">
 						<c:if test="${pageInfo.getNumber() != 0}">
 						<li class="page-item">
-							<a class="page-link" href="${pageContext.request.contextPath}/admin/user/list?category=<c:if test="${pageInfo.getCategory()!=null }">${pageInfo.getCategory()}</c:if>
+							<a class="page-link" href="/admin/user/list?category=<c:if test="${pageInfo.getCategory()!=null }">${pageInfo.getCategory()}</c:if>
 							&text=<c:if test="${pageInfo.getText()!=null }">${pageInfo.getText()}</c:if>&page=${pageInfo.getNumber()-1}&size=10">
 							Prev</a>
 						</li>
@@ -94,7 +95,7 @@
 						
 						<c:forEach var="i" begin="0" end="${pageInfo.getTotalPages() - 1}" step="1">
 						<li class="page-item <c:if test="${pageInfo.getNumber() == i}">active</c:if>">
-							<a class="page-link" href="${pageContext.request.contextPath}/admin/user/list?category=<c:if test="${pageInfo.getCategory()!=null }">${pageInfo.getCategory()}</c:if>
+							<a class="page-link" href="/admin/user/list?category=<c:if test="${pageInfo.getCategory()!=null }">${pageInfo.getCategory()}</c:if>
 							&text=<c:if test="${pageInfo.getText()!=null }">${pageInfo.getText()}</c:if>&page=${i}&size=10">
 							${i+1}</a>
 						</li>
@@ -102,7 +103,7 @@
 						
 						<c:if test="${pageInfo.getNumber() != (pageInfo.getTotalPages() - 1)}">
 						<li class="page-item">
-						<a class="page-link" href="${pageContext.request.contextPath}/admin/user/list?category=<c:if test="${pageInfo.getCategory()!=null }">${pageInfo.getCategory()}</c:if>
+						<a class="page-link" href="/admin/user/list?category=<c:if test="${pageInfo.getCategory()!=null }">${pageInfo.getCategory()}</c:if>
 							&text=<c:if test="${pageInfo.getText()!=null }">${pageInfo.getText()}</c:if>&page=${pageInfo.getNumber()+1}&size=10">
 						Next</a>
 						</li>
@@ -128,30 +129,30 @@
 	function search(_mode){
 		
 		startLoading('검색중...');
-		
-		var $searchCategory = document.getElementById('searchCategory');
-		var $searchText = document.getElementById('searchText');
-		var selCategory = null;
-		for(var i = 0 ; i < $searchCategory.options.length ; i++){
+
+		let $searchCategory = document.getElementById('searchCategory');
+		let $searchText = document.getElementById('searchText');
+		let selCategory = null;
+		for(let i = 0 ; i < $searchCategory.options.length ; i++){
 			if($searchCategory.options[i].selected === true){
 				selCategory = $searchCategory.options[i].value;
 				break;
 			}
 		}
-		var searchData = {
+		let searchData = {
 			'category':selCategory,
 			'text':$searchText.value,
 			'page':0,
 			'size':10,
 			'mode':_mode
 		};
-		
-	 	var $searchForm = document.createElement('form');
+
+		let $searchForm = document.createElement('form');
 		$searchForm.setAttribute('method' , 'GET');
-		$searchForm.setAttribute('action' , '${pageContext.request.contextPath}/admin/user/list?')
+		$searchForm.setAttribute('action' , '/admin/user/list?')
 	 	
-	 	for(var k in searchData){
-	 		var hiddenField = document.createElement('input');
+	 	for(let k in searchData){
+			let hiddenField = document.createElement('input');
 	 		hiddenField.setAttribute('type' , 'hidden');
 	 		hiddenField.setAttribute('name' ,k );
 	 		hiddenField.setAttribute('value' , searchData[k])
@@ -164,9 +165,9 @@
 	
 	/* 상세보기 이동 */
 	function moveDViewPage(_email , _callUrl){
-		var ss = _callUrl.split('&');
-		var callUri = '/admin/user/list';
-		movePage('${pageContext.request.contextPath}/admin/user/dview?email='+_email+'&callUri='+callUri+'&'+ss[ss.length - 1]);
+		let ss = _callUrl.split('&');
+		let callUri = '/admin/user/list';
+		movePage('/admin/user/dview?email='+_email+'&callUri='+callUri+'&'+ss[ss.length - 1]);
 	}
 
 </script>

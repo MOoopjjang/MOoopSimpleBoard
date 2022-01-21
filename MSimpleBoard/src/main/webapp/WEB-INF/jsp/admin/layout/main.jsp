@@ -8,6 +8,7 @@
 		<title>MSimpleBoard</title>
 		<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
 		<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/admin/common.css?ver=1">
+		<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/layer.css">
 	</head>
 	
 	<body>

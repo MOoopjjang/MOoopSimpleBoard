@@ -20,7 +20,13 @@ public class LoginFailHandler implements AuthenticationFailureHandler{
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		response.sendRedirect(request.getContextPath()+"/login?error=Y");
+		if(exception instanceof BlockAuthenticationException){
+			response.sendRedirect(request.getContextPath()+"/common/error/block");
+		}else if(exception instanceof HoldAuthenticationException){
+			response.sendRedirect(request.getContextPath()+"/common/error/hold");
+		}else{
+			response.sendRedirect(request.getContextPath()+"/login?error=Y");
+		}
 	}
 
 }

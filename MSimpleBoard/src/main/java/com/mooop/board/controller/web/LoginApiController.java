@@ -1,6 +1,7 @@
 package com.mooop.board.controller.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,7 @@ public class LoginApiController extends MSBBaseController{
 	 */
 	@PostMapping("/register")
 	@SuppressWarnings("unchecked")
-	public ResponseVO<String> register(@RequestBody UserItemVO rvo) {
+	public ResponseVO<String> register(UserItemVO rvo , HttpServletRequest request , HttpServletResponse response) {
 		ResponseVO<String> result = new ResponseVO<>();
 		try {
 			if(authService.register(rvo)) {
@@ -59,7 +60,7 @@ public class LoginApiController extends MSBBaseController{
 	 * @return
 	 */
 	@PostMapping("/save")
-	public ResponseVO<String> save(@RequestBody UserItemVO rvo){
+	public ResponseVO<String> save(UserItemVO rvo , HttpServletRequest request , HttpServletResponse response){
 		ResponseVO<String> result = new ResponseVO<>();
 		try {
 			if(authService.save(rvo)) {

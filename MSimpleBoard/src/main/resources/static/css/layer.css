@@ -44,3 +44,43 @@
 
 .close_layer{display:flex;align-items: center;justify-content: flex-end;margin-right: 10px;}
 .close_layer a{padding:4px;}
+
+/* Table */
+.msb-com-table{
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    width:100%;
+}
+
+.msb-com-table > thead > tr{
+    width: 100%;
+    height: 60px;
+    padding: 4px 10px;
+    border-top: 2px solid black;
+    border-bottom: 1px solid black;
+
+    background-color: #f7f7f7;
+}
+
+.msb-com-table > thead > tr > th{
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: #727272;
+
+}
+
+.msb-com-table > tbody > tr{
+    width: 100%;
+    height: 50px;
+
+    padding: 4px 10px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.msb-com-table > tbody > tr > td{
+    font-family: sans-serif;
+    font-size: 14px;
+    text-align: center;
+}

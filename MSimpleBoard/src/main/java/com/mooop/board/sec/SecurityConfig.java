@@ -1,6 +1,5 @@
 package com.mooop.board.sec;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +19,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Value("${security.enable}")
 	private String securityEnable;
 	
-	@Autowired
-	CustomAuthenticationProvider customAuthenticationProvider;
-	
-	String[] csrfPath = new String[] {"/test/**" , "/h2/**"};
-	
+	private final CustomAuthenticationProvider customAuthenticationProvider;
+
+	private static final String[] IGNORE_CSRF_URI = {"/test/**" , "/h2/**"};
+
+	public SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider) {
+		this.customAuthenticationProvider = customAuthenticationProvider;
+	}
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**");
@@ -42,18 +44,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			http.headers().frameOptions().sameOrigin()
 			.and()
 			.authorizeRequests()
-					.antMatchers("/","/login","/login/**" , "/loginproc" ).permitAll()
+					.antMatchers("/" ,"/login","/login/**" ,"/ImageView*/**","/common/**").permitAll()
 					.antMatchers("/test/**" , "/h2/**").permitAll()
 					.antMatchers("/admin/**").hasRole("ADMIN")
 					.antMatchers("/board/**").access("hasRole('GUEST') or hasRole('USER') or hasRole('ADMIN')")
 					.anyRequest().authenticated()
-					.and().csrf().ignoringAntMatchers(csrfPath)
+					.and().csrf().ignoringAntMatchers(IGNORE_CSRF_URI)
 					;
 					
 			http.formLogin().loginPage("/login")
 							.usernameParameter("username")
 							.passwordParameter("password")
-							.loginProcessingUrl("/loginproc")
+							.loginProcessingUrl("/j_spring_security_check")
 							.successHandler(loginSuccessHandler())
 							.failureHandler(loginfailHandler())
 							.and()

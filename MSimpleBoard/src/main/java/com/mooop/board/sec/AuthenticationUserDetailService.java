@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,9 +25,12 @@ import com.mooop.board.repo.DaoManager.DAO_TYPE;
 public class AuthenticationUserDetailService implements UserDetailsService{
 	
 	private static Logger logger = LoggerFactory.getLogger("AuthenticationUserDetailService");
-	
-	@Autowired
-	DaoManager daoManager;
+
+	private final DaoManager daoManager;
+	public AuthenticationUserDetailService(DaoManager daoManager) {
+		this.daoManager = daoManager;
+	}
+
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,25 +38,12 @@ public class AuthenticationUserDetailService implements UserDetailsService{
 		AuthRepository authRepository =  (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
 		MSBAuth auth =  authRepository.findByEmail(username);
 		
-//		UserBuilder builder = Optional.ofNullable(auth).map(data->{
-//			UserBuilder ub = User.withUsername(auth.getEmail());
-//			ub.password(auth.getPassword());
-//			ub.roles(auth.getUserRole().getRole());
-//			return ub;
-//		}).orElseThrow(()->{
-//			throw new UsernameNotFoundException(username+" is not found!!!");
-//		});
-		
-		UserBuilder ub = null;
-		if(auth !=null) {
-			ub = User.withUsername(auth.getEmail());
+		return Optional.ofNullable(auth).map(data->{
+			UserBuilder ub = User.withUsername(auth.getEmail());
 			ub.password(auth.getPassword());
 			ub.roles(auth.getUserRole().getRole());
-		}else {
-			throw new UsernameNotFoundException(username+" is not found!!!");
-		}
-		
-		return ub.build();
+			return ub.build();
+		}).orElseThrow(()->new UsernameNotFoundException(username+" is not found!!!"));
 	}
 
 }

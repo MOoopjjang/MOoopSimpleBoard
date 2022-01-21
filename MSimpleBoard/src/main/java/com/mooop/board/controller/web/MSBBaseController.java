@@ -1,5 +1,6 @@
 package com.mooop.board.controller.web;
 
+import com.mooop.board.service.web.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
@@ -8,12 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mooop.board.component.AuthenticationComponent;
 import com.mooop.board.repo.DaoManager;
-import com.mooop.board.service.web.AuthServiceImpl;
-import com.mooop.board.service.web.BoardManagerServiceImpl;
-import com.mooop.board.service.web.BoardServiceImpl;
-import com.mooop.board.service.web.EventManagerServiceImpl;
-import com.mooop.board.service.web.SettingServiceImpl;
-import com.mooop.board.service.web.UserManagerServiceImpl;
 import com.mooop.board.utils.MStringUtil;
 
 
@@ -30,22 +25,22 @@ public class MSBBaseController {
 	
 	
 	@Autowired
-	AuthServiceImpl authService;
+	AuthService authService;
 	
 	@Autowired
-	BoardServiceImpl boardService;
+	BoardService boardService;
 	
 	@Autowired
-	UserManagerServiceImpl userManagerService;
+	UserManagerService userManagerService;
 	
 	@Autowired
-	EventManagerServiceImpl eventManagerService;
+	EventManagerService eventManagerService;
 	
 	@Autowired
-	BoardManagerServiceImpl boardManagerService;
+	BoardManagerService boardManagerService;
 	
 	@Autowired
-	SettingServiceImpl settingService;
+	SettingService settingService;
 	
 	@Autowired
 	AuthenticationComponent authenticationComponent;

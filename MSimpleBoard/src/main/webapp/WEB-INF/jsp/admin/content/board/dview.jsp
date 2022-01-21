@@ -56,20 +56,20 @@
 
 <script type="text/javascript">
 	function deleteFunc(_idx){
-		var removeData = {
+		let removeData = {
    			'idx':_idx
     	}
     	
 		startLoading('삭제 진행중...');
     	$.ajax({
-	        url : '${pageContext.request.contextPath}/admin/api/board/remove',
+			url : '${pageContext.request.contextPath}/admin/api/board/remove',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
-	        method : "post",
-	        data : JSON.stringify(removeData),
-	        contentType : 'application/json',
-	        success : function(response){
+			method : "post",
+			data : JSON.stringify(removeData),
+			contentType : 'application/json',
+			success : function(response){
 				stopLoading();
 				if(response.result === 'OK'){
 					alert('삭제되었습니다..!'); 
@@ -78,11 +78,10 @@
 					alert('오류가 발생하였습니다.!');
 				}
 			},
-	        error : function( response ){
+			error : function( response ){
 				stopLoading();
 				alert('falied');
 			}
-	      
-	    });
+		});
 	}
 </script>

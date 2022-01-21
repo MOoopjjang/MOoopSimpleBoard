@@ -4,7 +4,7 @@ server:
     jsp:
       init-parameters:
         development: true
-    context-path: /msb
+#    context-path: /msb
     
     
     
@@ -13,18 +13,12 @@ spring:
     multipart:                      ## 파일 upload 제한설정
       max-file-size: 100MB
       max-request-size: 100MB
-        
-        
-        
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+    static-path-pattern: /resources/**
 
-#spring:
-#  mvc:
-#    view:
-#      prefix: /WEB-INF/jsp/
-#      suffix: .jsp
-#    static-path-pattern: /resources/**
-    
-    
 
 
 #spring:
@@ -48,6 +42,11 @@ msb:
     authorityMaxCount: 8
     authorityMinCount: 3
     pagingCount: 10
+  confirm:
+    confirm_url: http://localhost:8080/common/confirm/
+    max_retry_count: 5
+    from_id: xxxxx@abcdefg.com
+    from_pwd: 111111222
 
 
 

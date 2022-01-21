@@ -5,8 +5,8 @@
  * @returns
  */
 function getContextPath(){
-   var offset=location.href.indexOf(location.host)+location.host.length;
-   var ctxPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
-   return ctxPath;
+   var offset=window.location.href.indexOf(window.location.host)+window.location.host.length;
+   var ctxPath=window.location.href.substring(offset,window.location.href.indexOf('/',offset+1));
+   return ctxPath;
 }
 

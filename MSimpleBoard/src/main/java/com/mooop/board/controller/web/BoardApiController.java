@@ -61,12 +61,10 @@ public class BoardApiController extends MSBBaseController{
 	
 	
 	
-	
 	/**
 	 * 저장
-	 * 
-	 * @param bio
-	 * @param request
+	 * @param param
+	 * @param filelist
 	 * @return
 	 */
 	@PostMapping("/save")
@@ -86,8 +84,6 @@ public class BoardApiController extends MSBBaseController{
 			}else {
 				result = ResponseVO.builder().result("FAILED").reason("").build();
 			}
-			
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 			result = ResponseVO.builder().result("FAILED").reason(e.toString()).build();

@@ -1,0 +1,31 @@
+
+.m-font-14{
+    font-family: sans-serif;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+
+    color:#727272;
+}
+
+.m-font-16{
+    font-family: sans-serif;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: middle;
+
+    color:#727272;
+}
+
+.m-font-20{
+    font-family: sans-serif;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+
+    color:#727272;
+}
+
+.m-font-bold{
+    font-weight: bold;
+}

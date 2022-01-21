@@ -52,14 +52,15 @@ public class BoardManagerServiceImpl implements BoardManagerService{
 			return Integer.compare(s2.getBoards().size(), s1.getBoards().size());
 		}).collect(Collectors.toList());
 		return new PageImpl<AdmUserItemVO>(l.stream().limit(10).map(u->{
-					MSBHistory his = u.getAuth().getHistorys().stream().sorted((s1,s2)->s1.getDtLogin().compareTo(s2.getDtLogin())).findFirst().get();
+//					MSBHistory his = u.getAuth().getHistorys().stream().sorted((s1,s2)->s1.getDtLogin().compareTo(s2.getDtLogin())).findFirst().get();
+					MSBHistory his = u.getAuth().getHistory();
 					AdmUserItemVO auivo = new AdmUserItemVO();
 					auivo.setUserName(u.getUserName());
 					auivo.setStatus(u.getAuth().getStatus().getStatus());
 					auivo.setRole(u.getAuth().getUserRole().getRole());
 					auivo.setPassword("");
 					auivo.setNickName(u.getUserNick());
-					auivo.setLastLogin(MDateUtil.convertDateTimeString(his.getDtLogin()));
+					auivo.setLastLogin(MDateUtil.convertDateTimeString(his.getCreateDt()));
 					auivo.setEnable(u.getAuth().getEnable());
 					auivo.setEmail(u.getAuth().getEmail());
 					auivo.setDesc(u.getUserDesc());

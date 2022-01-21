@@ -73,7 +73,7 @@
 				<h5>권한추가</h5>
 			</nav>
 			<div>
-				<table class="table" style="border:2px solid #ddd">
+				<table class="msb-com-table">
 					<thead>
 						<th>권한</th>
 						<th>설명</th>
@@ -127,8 +127,8 @@
 
 <script type="text/javascript">
 
-	var $authority = document.getElementById('authority');
-	var $desc = document.getElementById('desc');
+	let $authority = document.getElementById('authority');
+	let $desc = document.getElementById('desc');
 	
 	
 	/* 권한을 추가한다 */
@@ -138,22 +138,22 @@
 			alert('빈값이 있습니다. 다시입력해 주세요!')
 			return;
 		}
-		
-		var nAuthority = {
+
+		let nAuthority = {
 			'authorityName':$authority.value,
 			'authorityDesc':$desc.value
 		}
 		
 		startLoading('권한 추가중...');
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/admin/api/setting/authority/add',
+			url : '${pageContext.request.contextPath}/admin/api/setting/authority/add',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
-	        method : "post",
-	        data : JSON.stringify(nAuthority),
-	        contentType : 'application/json',
-	        success : function(response){
+			method : "post",
+			data : JSON.stringify(nAuthority),
+			contentType : 'application/json',
+			success : function(response){
 				stopLoading();
 				if(response.result === 'OK'){
 					alert('새로운 권한이 등록되었습니다.');
@@ -162,34 +162,33 @@
 					alert('오류가 발생하였습니다.!\n'+response.reason);
 				}
 			},
-	        error : function( response ){
+			error : function( response ){
 				stopLoading();
 				alert('오류가 발생하였습니다.!\n'+response.reason);
 			}
-	      
-	    });
+
+		});
 	}
 	
 	/* 권한 삭제 */
 	function authorityDel(_authorityName){
 		result = confirm(_authorityName+' 권한을 삭제하시겠습니까?');
 		if(result === true){
-			
-			var nAuthority = {
+			let nAuthority = {
 					'authorityName':_authorityName,
 					'authorityDesc':''
 				}
 			
 			startLoading('삭제중...');
 			$.ajax({
-		        url : '${pageContext.request.contextPath}/admin/api/setting/authority/del',
+				url : '${pageContext.request.contextPath}/admin/api/setting/authority/del',
 				headers: {
 		        	"X-CSRF-TOKEN": "${_csrf.token}"
 		        },
-		        method : "post",
-		        data : JSON.stringify(nAuthority),
-		        contentType : 'application/json',
-		        success : function(response){
+				method : "post",
+				data : JSON.stringify(nAuthority),
+				contentType : 'application/json',
+				success : function(response){
 					stopLoading();
 					if(response.result === 'OK'){
 						alert('권한이 삭제되었습니다.');
@@ -198,12 +197,11 @@
 						alert('오류가 발생하였습니다.!\n'+response.reason);
 					}
 				},
-		        error : function( response ){
+				error : function( response ){
 					stopLoading();
 					alert('오류가 발생하였습니다.!\n'+response.reason);
 				}
-		      
-		    });
+			});
 		}
 	}
 </script>

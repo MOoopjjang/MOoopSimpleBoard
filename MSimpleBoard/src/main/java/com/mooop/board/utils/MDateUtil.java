@@ -28,15 +28,14 @@ public class MDateUtil {
 		return DateTimeFormatter.ofPattern(format).format(ldt);
 	}
 	
+
 	/**
-	 * Date type의 시간을 LocalDateTime으로 변경후 formating하여 반환
-	 * 
-	 * @param date
+	 *  LocalDateTime 을 String 형태로 반환한다.
+	 * @param dateTime
 	 * @return
 	 */
-	public static String convertDateTimeString(Date date) {
-		LocalDateTime ldt = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime();
-		return DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm").format(ldt);
+	public static String convertDateTimeString(LocalDateTime dateTime){
+		return DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm").format(dateTime);
 	}
 
 }

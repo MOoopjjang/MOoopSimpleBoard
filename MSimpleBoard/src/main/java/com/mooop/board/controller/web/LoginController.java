@@ -41,7 +41,7 @@ public class LoginController extends MSBBaseController{
 	
 	@GetMapping("/")
 	public String root(){
-		return (MSecurityUtil.isAuthenticated())?Defines.AUTHENTICATED_REDIRECT_URL:"redirect:/login";
+		return (MSecurityUtil.isAuthenticated())?"redirect:"+Defines.AUTHENTICATED_REDIRECT_URL:"redirect:/login";
 	}
 	
 	@GetMapping(value = "/login")
@@ -51,7 +51,7 @@ public class LoginController extends MSBBaseController{
 		
 		try {
 			if(MSecurityUtil.isAuthenticated()) {
-				viewUrl = Defines.AUTHENTICATED_REDIRECT_URL;
+				viewUrl = "redirect:"+Defines.AUTHENTICATED_REDIRECT_URL;
 				return makeModelAndView(viewUrl ,null, null);
 			}else {
 				viewUrl = "login/login";
@@ -63,20 +63,7 @@ public class LoginController extends MSBBaseController{
 		}
 	}
 	
-	/**
-	 *  로그인성공후 처리
-	 *  - 로그인 이력 적재
-	 *  
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@GetMapping("/loginproc")
-	public ModelAndView loginproc(HttpServletRequest request , HttpServletResponse response) {
-		authService.restoreLoginHistory();
-		return makeModelAndView(Defines.AUTHENTICATED_REDIRECT_URL ,null, null);
-	}
-	
+
 	/**
 	 * 로그아웃 처리
 	 * 
@@ -91,7 +78,7 @@ public class LoginController extends MSBBaseController{
 						new SecurityContextLogoutHandler().logout(request, response, auth);
 					});
 		
-		return makeModelAndView(Defines.AUTHENTICATED_REDIRECT_URL ,null, null);
+		return makeModelAndView("redirect:"+Defines.AUTHENTICATED_REDIRECT_URL ,null, null);
 	}
 	
 	

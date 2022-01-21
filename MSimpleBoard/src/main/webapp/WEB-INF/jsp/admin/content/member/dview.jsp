@@ -67,13 +67,13 @@
 <c:remove var="userItem" scope="page"/>
 
 <script type="text/javascript">
-	var $email = document.getElementById('email');
-	var $nick = document.getElementById('nick');
-	var $name = document.getElementById('name');
-	var $address = document.getElementById('address');
-	var $desc = document.getElementById('desc');
-	var $disable = document.getElementById('disable');
-	var $roleCategory = document.getElementById('roleCategory');
+	let $email = document.getElementById('email');
+	let $nick = document.getElementById('nick');
+	let $name = document.getElementById('name');
+	let $address = document.getElementById('address');
+	let $desc = document.getElementById('desc');
+	let $disable = document.getElementById('disable');
+	let $roleCategory = document.getElementById('roleCategory');
 	
 
 	function dviewSave(){
@@ -101,14 +101,14 @@
 		
 		startLoading('업데이트중...');
 		$.ajax({
-	        url : '${pageContext.request.contextPath}/admin/api/user/update',
+			url : '${pageContext.request.contextPath}/admin/api/user/update',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
-	        method : "post",
-	        data : JSON.stringify(updateData),
-	        contentType : 'application/json',
-	        success : function(response){
+			method : "post",
+			data : JSON.stringify(updateData),
+			contentType : 'application/json',
+			success : function(response){
 				stopLoading();
 				if(response.result === 'OK'){
 					alert('사용자 정보가 변경되었습니다.');
@@ -117,13 +117,11 @@
 					alert('오류가 발생하였습니다.!');
 				}
 			},
-	        error : function( response ){
+			error : function( response ){
 				stopLoading();
 				alert('falied');
 			}
-	      
-	    });
-		
+		});
 		
 	}
 	

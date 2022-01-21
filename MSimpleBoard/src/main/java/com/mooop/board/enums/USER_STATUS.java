@@ -9,8 +9,9 @@ package com.mooop.board.enums;
 public enum USER_STATUS {
 	
 	WAITING ("WAITING"),		//대기
-	ACCESSION ("ACCESSION"),	//가입중
-	PAUSE ("PAUSE"),			//block
+	ACTIVE ("ACTIVE"),	//가입중
+	HOLD("HOLD"),
+	BLOCK ("BLOCK"),			//block
 	SECESSION ("SECESSION");	//탈퇴
 	
 	

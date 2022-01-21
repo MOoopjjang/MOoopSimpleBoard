@@ -38,7 +38,7 @@ import lombok.ToString;
 @Table(name = "MSB_UPLOAD")
 public class MSBUpload {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "IDX")
 	private Long idx;
 	
@@ -53,6 +53,9 @@ public class MSBUpload {
 	
 	@Column(name = "ONAME" , nullable = false)
 	private String oname;
+
+	@Column(name = "UTYPE" , nullable = false)
+	private String utype;
 	
 	@Column(name = "SIZE" , nullable = false)
 	private Long size;

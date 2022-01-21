@@ -39,7 +39,7 @@ import lombok.Setter;
 public class MSBUser implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "USER_ID")
 	private Long id;
 	
@@ -62,67 +62,7 @@ public class MSBUser implements Serializable{
 	
 	@OneToMany(mappedBy = "user" ,cascade = CascadeType.PERSIST)
 	private List<MSBBoard> boards = new ArrayList<>();
-	
-	
-//	public MSBUser(Builder builder) {
-//		this.userName = builder.userName;
-//		this.userAge = builder.userAge;
-//		this.userNick = builder.userNick;
-//		this.userAddr = builder.userAddr;
-//		this.userDesc = builder.userDesc;
-//		this.auth = builder.auth;
-//	}
-//	
-//	
-//	public static Builder builder() {
-//		return new Builder();
-//	}
-//	
-//	
-//	public static class Builder{
-//		private String userName;
-//		private Integer userAge;
-//		private String userNick;
-//		private String userAddr;
-//		private String userDesc;
-//		private MSBAuth auth;
-//		
-//		
-//		public Builder name(String name) {
-//			this.userName = name;
-//			return this;
-//		}
-//		
-//		public Builder age(int age) {
-//			this.userAge = age;
-//			return this;
-//		}
-//		
-//		public Builder nick(String nick) {
-//			this.userNick = nick;
-//			return this;
-//		}
-//		
-//		public Builder addr(String addr) {
-//			this.userAddr = addr;
-//			return this;
-//		}
-//		
-//		public Builder desc(String desc ) {
-//			this.userDesc = desc;
-//			return this;
-//		}
-//		
-//		public Builder auth(MSBAuth auth) {
-//			this.auth = auth;
-//			return this;
-//		}
-//		
-//		public MSBUser build() {
-//			return new MSBUser( this );
-//		}
-//		
-//		
-//	}
 
+//	@OneToOne(mappedBy = "user")
+//	private MSBUserDetail userDetail;
 }

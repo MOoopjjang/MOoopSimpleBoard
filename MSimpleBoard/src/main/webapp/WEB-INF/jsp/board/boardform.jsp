@@ -10,6 +10,7 @@
 
 
 <link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+<link href="${pageContext.request.contextPath}/resources/asset/summernote-0.8.18-dist/summernote.css" rel="stylesheet">
 <link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/registry.css?ver=1">
 
 <style>
@@ -19,9 +20,16 @@
 	}
 	
 	.form-container{
-		width: 600px;
+		width: 800px;
 		padding: 10px;
 		background-color: white;
+	}
+
+	.modal {
+		background: rgba(0, 0, 0, 0.5);
+	}
+	.modal-backdrop {
+		display: none;
 	}
 	
 </style>
@@ -80,10 +88,9 @@
 			
 			<div style="margin-top:10px;">
 				<label for="content"><b>내용</b></label>
-				<textarea id="content" name="content" class="form-control col-md-12" rows="8" style="text-align: left;"  
-				<c:if test="${mode!='register'}">disabled="true"</c:if>
-					><c:if test="${item != null && item.getContent() != null}">${item.getContent().replace(" ", "&nbsp;").trim()}</c:if></textarea>
-				
+				<textarea id="content" name="content">
+					<c:if test="${item != null && item.getContent() != null}">${item.getContent()}</c:if>
+				</textarea>
 			</div>
 			
 			<div style="margin-top:10px;color:#bf5eab"><span> * 파일첨부는 1개만 가능합니다.</span></div>
@@ -145,7 +152,6 @@
 		
 		
 		<!-- 변수 제거 -->
-		<c:remove var="mode" scope="page"/>
 		<c:remove var="authInfo" scope="page"/>
 		<c:remove var="item" scope="page"/>
 		<c:remove var="idx" scope="page"/>
@@ -157,37 +163,60 @@
 		    --------------------------------------------------------------
 -->
 
-		<script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>  
-		<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>  
+		<script src="${pageContext.request.contextPath}/resources/asset/popper/popper.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>  
+		<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/mstringutil.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/network.js"></script> 
+		<script src="${pageContext.request.contextPath}/resources/js/network.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/uicommon.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/asset/summernote-0.8.18-dist/summernote.js"></script>
 		<script type="text/javascript">
-		
-			
 			var $email = document.getElementById('email');
 			var $nick = document.getElementById('nick');
 			var $title = document.getElementById('title');
 			var $content = document.getElementById('content');
 			var $secYN = document.getElementById('secYN');
 			var $btn_action = document.getElementById('btn_action');
-			
-			
-			(function init(){
-				$(".custom-file-input").on("change", function() {
-				  var fileName = $(this).val().split("\\").pop();
-				  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+			$(document).ready(function(){
+
+				$('#content').summernote({
+					placeholder:'자유롭게 작성해주세요!..불쾌감을 주는글은 삼가해주세요',
+					tabsize: 2,
+					height:300,
+					minWidth:null,
+					minHeight:null,
+					focus: true,
+					lang:'ko-KR',
+					toolbar: [
+						['style', ['style']],
+						['font', ['bold', 'underline', 'clear']],
+						['color', ['color']],
+						['para', ['ul', 'ol', 'paragraph']],
+						['table', ['table']],
+						['insert', ['link', 'picture', 'video']],
+						['view', ['fullscreen', 'codeview', 'help']]
+					]
 				});
-			})();
-			
-			
-		
+
+				/* 등록모드가 아니면 편집기능 disable */
+				if('${mode}' !== 'register'){
+					$('#content').summernote('disable');
+				}
+
+				$(".custom-file-input").on("change", function() {
+					let fileName = $(this).val().split("\\").pop();
+					$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+				});
+			})
+
+
 		    /* 액션 ( 등록 | 편집 | 저장 ) */
 			function dviewAction(_idx){
-				var $btn_action = document.getElementById('btn_action');
-				var actionText = trim(btn_action.innerHTML);
+				let $btn_action = document.getElementById('btn_action');
+				let actionText = trim(btn_action.innerHTML);
 				if(actionText === '등록'){
 					register();
 				}else if(actionText === '편집'){
@@ -200,7 +229,7 @@
 		    
 		    /* 액션 ( 등록 ) */
 		    function register(){
-		    	var secYn = 'N';
+				let secYn = 'N';
 		    	if($secYN !== null && $secYN.checked === true){
 		    		secYn = 'Y';
 		    	}
@@ -215,18 +244,18 @@
 		    	
 		    	startLoading('등록중...');
 		    	$.ajax({
-			        url : '${pageContext.request.contextPath}/board/api/register',
+			        url : '${pageContext.request.contextPath}/board/api/register',
 					headers: {
 			        	"X-CSRF-TOKEN": "${_csrf.token}"
 			        },
-			        method : "post",
+					method : "post",
 					enctype: 'multipart/form-data',
-			        data : registryData,
+					data : registryData,
 					processData: false,
-			        contentType : false,
+					contentType : false,
 					cache: false,
 					timeout: 600000,
-			        success : function(response){
+					success : function(response){
 						stopLoading();
 						if(response.result === 'OK'){
 							alert('등록되었습니다..!');
@@ -235,19 +264,19 @@
 							alert('오류가 발생하였습니다.!');
 						}
 					},
-			        error : function( response ){
+					error : function( response ){
 						stopLoading();
 						alert('falied');
 					}
-			      
-			    });
+				});
 		    }
 		    
 		    /* 액션 ( 편집 ) */
 		    function edit(){
 		    	$title.disabled = false;
-				$content.disabled = false;
 				$secYN.disabled = false;
+
+				$('#content').summernote('enable');
 				$('input[name="file1"]').prop('disabled' , false);
 				
 				$btn_action.innerHTML = '저장';
@@ -272,18 +301,18 @@
 		    	
 		    	startLoading('등록중...');
 		    	$.ajax({
-			        url : '${pageContext.request.contextPath}/board/api/save',
+					url : '${pageContext.request.contextPath}/board/api/save',
 					headers: {
 			        	"X-CSRF-TOKEN": "${_csrf.token}"
 			        },
-			        method : "post",
+					method : "post",
 					enctype: 'multipart/form-data',
-			        data : saveData,
+					data : saveData,
 					processData: false,
-			        contentType : false,
+					contentType : false,
 					cache: false,
 					timeout: 600000,
-			        success : function(response){
+					success : function(response){
 						stopLoading();
 						if(response.result === 'OK'){
 							alert('등록되었습니다..!');
@@ -292,12 +321,11 @@
 							alert('오류가 발생하였습니다.!');
 						}
 					},
-			        error : function( response ){
+					error : function( response ){
 						stopLoading();
 						alert('falied');
 					}
-			      
-			    });
+				 });
 		    }
 		
 			
@@ -318,14 +346,14 @@
 		    	}
 				startLoading('삭제중...');
 		    	$.ajax({
-			        url : '${pageContext.request.contextPath}/board/api/remove',
+					url : '${pageContext.request.contextPath}/board/api/remove',
 					headers: {
 			        	"X-CSRF-TOKEN": "${_csrf.token}"
 			        },
-			        method : "post",
-			        data : JSON.stringify(removeData),
-			        contentType : 'application/json',
-			        success : function(response){
+					method : "post",
+					data : JSON.stringify(removeData),
+					contentType : 'application/json',
+					success : function(response){
 						stopLoading();
 						if(response.result === 'OK'){
 							alert('삭제되었습니다..!');
@@ -334,12 +362,11 @@
 							alert('오류가 발생하였습니다.!');
 						}
 					},
-			        error : function( response ){
+					error : function( response ){
 						stopLoading();
 						alert('falied');
 					}
-			      
-			    });
+				});
 			}
 			
 			/* 첨부파일 삭제 */
@@ -369,5 +396,5 @@
 				
 			}
 			
-		</script>  
+		</script>
 

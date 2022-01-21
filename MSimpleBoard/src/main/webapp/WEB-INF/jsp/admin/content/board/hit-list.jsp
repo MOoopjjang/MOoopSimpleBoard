@@ -26,9 +26,9 @@
 			<h2>최다 조회글</h2>
 		</nav>
 		<div style="margin-top:10px;">
-			<table class="table table-striped" style="border: 1px solid #ddd;">
+			<table class="msb-com-table">
 				<thead>
-					<th style="width:10%;">#</th>
+					<th style="width:10%;">No</th>
 					<th style="width:40%;">Title</th>
 					<th style="width:20%;">닉네임</th>
 					<th style="width:20%;">등록일</th>
@@ -38,11 +38,11 @@
 				<tbody>
 					<c:forEach var="item" items="${items}" varStatus="status">
 						<tr>
-							<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getBoardIdx()}')" style="color:black;">${status.count}</a></td>
+							<td>${status.count}</td>
 							<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getBoardIdx()}')" style="color:black;">${item.getTitle()}</a></td>
-							<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getBoardIdx()}')" style="color:black;">${item.getNick()}</a></td>
-							<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getBoardIdx()}')" style="color:black;">${sdf.format(item.getDtCreate())}</a></td>
-							<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getBoardIdx()}')" style="color:black;">${item.getHit()}</a></td>
+							<td>${item.getNick()}</td>
+							<td>${sdf.format(item.getDtCreate())}</td>
+							<td>${item.getHit()}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

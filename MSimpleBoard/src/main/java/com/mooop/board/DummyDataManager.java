@@ -1,36 +1,26 @@
 package com.mooop.board;
 
+import com.mooop.board.entity.*;
+import com.mooop.board.enums.USER_ROLES;
+import com.mooop.board.enums.USER_STATUS;
+import com.mooop.board.repo.*;
+import com.mooop.board.repo.DaoManager.DAO_TYPE;
+import com.mooop.board.utils.MSecurityUtil;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-import com.mooop.board.entity.MSBAuth;
-import com.mooop.board.entity.MSBAuthority;
-import com.mooop.board.entity.MSBBoard;
-import com.mooop.board.entity.MSBEvent;
-import com.mooop.board.entity.MSBHistory;
-import com.mooop.board.entity.MSBSetting;
-import com.mooop.board.entity.MSBUser;
-import com.mooop.board.enums.USER_ROLES;
-import com.mooop.board.enums.USER_STATUS;
-import com.mooop.board.repo.AuthRepository;
-import com.mooop.board.repo.AuthorityRepository;
-import com.mooop.board.repo.BoardRepository;
-import com.mooop.board.repo.DaoManager;
-import com.mooop.board.repo.DaoManager.DAO_TYPE;
-import com.mooop.board.utils.MSecurityUtil;
-import com.mooop.board.repo.EventRepository;
-import com.mooop.board.repo.SettingRepository;
-import com.mooop.board.repo.UserRepository;
 
+/**
+ * DummyData 생성 class
+ */
 public class DummyDataManager {
 	
 	/**
 	 * Event 데이타 생성
 	 * 
-	 * @param eRepository
+	 * @param daoManager
 	 */
 	public static void createEventDummyData(DaoManager daoManager) {
 		
@@ -63,20 +53,21 @@ public class DummyDataManager {
 		AuthRepository authRepo = (AuthRepository)daoManager.getRepository(DAO_TYPE.AUTH);
 		
 		MSBAuth auth = new MSBAuth();
-		auth.setEmail("cwkim@zinnaworks.com");
-		auth.setPassword(MSecurityUtil.makeGeneratePassowrd("cwkim@zinnaworks.com" , "1111"));
+		auth.setEmail("admin@test.com");
+		auth.setPassword(MSecurityUtil.makeGeneratePassowrd("admin@test.com" , "admin"));
 		auth.setEnable("Y");
-		auth.setStatus(USER_STATUS.ACCESSION);
+		auth.setStatus(USER_STATUS.ACTIVE);
 		auth.setUserRole(USER_ROLES.ADMIN);
 		
 		MSBHistory his = new MSBHistory();
 		his.setAuth(auth);
-		auth.getHistorys().add(his);
+		auth.setHistory(his);
+//		auth.getHistorys().add(his);
 		
 		MSBUser user = new MSBUser();
-		user.setUserName("김철우");
-		user.setUserNick("길손");
-		user.setUserAddr("incheon");
+		user.setUserName("홍길동");
+		user.setUserNick("도둑");
+		user.setUserAddr("seoul");
 		user.setUserDesc("나는 나다");
 		user.setAuth(auth);
 		auth.setUser(user);
@@ -90,7 +81,7 @@ public class DummyDataManager {
 		b1.setHit(0);
 		b1.setUser(user);
 		user.getBoards().add(b1);
-		
+
 		MSBBoard b2 = new MSBBoard();
 		b2.setTitle("안녕하세요2~");
 		b2.setContent("두번째 방문입니다.ㅎ..ㅎㅎㅎㅎ");
@@ -104,20 +95,20 @@ public class DummyDataManager {
 		
 		
 		auth = new MSBAuth();
-		auth.setEmail("hjkim@myhome.com");
-		auth.setPassword(MSecurityUtil.makeGeneratePassowrd("hjkim@myhome.com","4444"));
+		auth.setEmail("guest@test.com");
+		auth.setPassword(MSecurityUtil.makeGeneratePassowrd("guest@test.com","guest"));
 		auth.setEnable("Y");
-		auth.setStatus(USER_STATUS.ACCESSION);
+		auth.setStatus(USER_STATUS.ACTIVE);
 		auth.setUserRole(USER_ROLES.GUEST);
 		
 		his = new MSBHistory();
 		his.setAuth(auth);
-		auth.getHistorys().add(his);
+		auth.setHistory(his);
 		
 		user = new MSBUser();
-		user.setUserName("김효중");
-		user.setUserNick("미남이");
-		user.setUserAddr("당진시");
+		user.setUserName("고길동");
+		user.setUserNick("외통수");
+		user.setUserAddr("고려시");
 		user.setUserDesc("해피니스~");
 		user.setAuth(auth);
 		auth.setUser(user);
@@ -125,42 +116,23 @@ public class DummyDataManager {
 		
 		
 		auth = new MSBAuth();
-		auth.setEmail("ejkim@myhome.com");
-		auth.setPassword(MSecurityUtil.makeGeneratePassowrd("ejkim@myhome.com" , "2222"));
+		auth.setEmail("user@test.com");
+		auth.setPassword(MSecurityUtil.makeGeneratePassowrd("user@test.com" , "user"));
 		auth.setEnable("Y");
 		auth.setUserRole(USER_ROLES.USER);
-		auth.setStatus(USER_STATUS.ACCESSION);
+		auth.setStatus(USER_STATUS.ACTIVE);
 		
 		his = new MSBHistory();
 		his.setAuth(auth);
-		auth.getHistorys().add(his);
+		auth.setHistory(his);
 		
 		user = new MSBUser();
-		user.setUserName("김은중");
-		user.setUserNick("은철이");
-		user.setUserAddr("구월동");
+		user.setUserName("정우성");
+		user.setUserNick("비트");
+		user.setUserAddr("용산");
 		user.setUserDesc("항상 기쁨으로~~");
 		user.setAuth(auth);
 		auth.setUser(user);
-		
-		
-		
-//		b1 = new MSBBoard();
-//		b1.setTitle("배가 아퍼요~");
-//		b1.setContent("밥을 잘못 먹어서 배가 아퍼요~~ㅜ");
-//		b1.setSecYN("N");
-//		b1.setHit(0);
-//		b1.setUser(user);
-//		user.getBoards().add(b1);
-//		
-//		b1 = new MSBBoard();
-//		b1.setTitle("회복중~");
-//		b1.setContent("하루종일 약먹구 , 배를 따뜻하게 하구 ...며칠간 고생해야 될것 같아요!!!");
-//		b1.setSecYN("N");
-//		b1.setHit(0);
-//		b1.setUser(user);
-//		user.getBoards().add(b1);
-		
 		
 		authRepo.save(auth);
 		

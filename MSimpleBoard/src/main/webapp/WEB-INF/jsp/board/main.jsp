@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF8" %>
+<%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="java.util.*" %>
@@ -11,12 +11,30 @@
 
 <html lang="ko">
 	<head>
+		<%--		<%@include file="../common/common.jsp"%>--%>
 		<meta charset="UTF-8" >
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel='stylesheet' type="text/css" href="/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+		<link rel='stylesheet' type="text/css" href="/resources/css/top.css">
+		<link rel='stylesheet' type="text/css" href="/resources/css/layer.css?ver=1">
+		<link rel='stylesheet' type="text/css" href="/resources/css/base.css">
+
+		<script src="/resources/asset/jquery-3.4.1.min.js"></script>
+		<script src="/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+		<script src="/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
+		<script src="/resources/js/common.js"></script>
+		<script src="/resources/js/mstringutil.js"></script>
+		<script src="/resources/js/network.js"></script>
+		<script src="/resources/js/uicommon.js"></script>
+
 		<title>MSimpleBoard</title>
-		<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/css/bootstrap.min.css">
-		<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/top.css">
-		<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/layer.css?ver=1">
+		<style>
+			body{
+				margin:0;
+				padding:0;
+			}
+		</style>
 	</head>
 	
 <%
@@ -27,6 +45,7 @@
 	Page<BoardItemVO> pageInfo = (Page<BoardItemVO>)cr.getData();
 	List<BoardItemVO> items = pageInfo.getContent();
 %>
+
 
 	
 
@@ -41,10 +60,10 @@
 		<c:set var="role" value="<%= authInfo.getRole() %>" scope="session" />
 	
 		<!-- 로그인정보  , 기타.. -->
-		<jsp:include page="top.jsp" />
+		<%@include file="top.jsp"%>
 		
 		<!-- 계시판 목록  , 새글쓰기  -->
-		<jsp:include page="mid.jsp" />
+		<%@include file="mid.jsp"%>
 		
 		<!-- 미정 -->
 	<%-- 	<jsp:include page="bottom.jsp" /> --%>
@@ -58,20 +77,5 @@
 		<c:remove var="nick" scope="session"/>
 		<c:remove var="dtaccess" scope="session"/>
 		<c:remove var="role" scope="session"/>
-<!-- 
-	 		--------------------------------------------------------------
-	 				자바스크립트 영역
-		    --------------------------------------------------------------
--->
-<%-- 
-		<script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>  
-		<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>  
-		<script src="${pageContext.request.contextPath}/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>  
-		<script src="${pageContext.request.contextPath}/resources/js/network.js"></script> 
-		<script src="${pageContext.request.contextPath}/resources/js/uicommon.js"></script>
- --%>
-		<script type="text/javascript">
-		</script>
 	</body>
 </html>

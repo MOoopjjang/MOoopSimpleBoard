@@ -46,7 +46,7 @@ import lombok.Setter;
 public class MSBAuth implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "AUTH_ID")
 	private Long id;
 	
@@ -78,50 +78,13 @@ public class MSBAuth implements Serializable{
 	@ColumnDefault("CURRENT_TIMESTAMP")
 	private Date dtUpdate;
 	
-	@OneToMany(mappedBy = "auth" , cascade = CascadeType.PERSIST)
-	private List<MSBHistory> historys = new ArrayList<>();
-	
-	@OneToOne(mappedBy ="auth" , cascade = CascadeType.PERSIST)
+//	@OneToMany(mappedBy = "auth" , cascade = CascadeType.PERSIST)
+//	private List<MSBHistory> historys = new ArrayList<>();
+
+	@OneToOne(mappedBy = "auth", cascade = {CascadeType.PERSIST , CascadeType.REMOVE})
+	private MSBHistory history;
+
+	@OneToOne(mappedBy ="auth" , cascade = {CascadeType.PERSIST , CascadeType.REMOVE})
 	private MSBUser user;
-	
-	
-//	public MSBAuth( Builder builder) {
-//		this.userId = builder.userId;
-//		this.password = builder.password;
-//		this.userRole = builder.userRole;
-//		this.enable = builder.enable;
-//	}
-	
-	
-//	public static class Builder{
-//		private String userId;
-//		private String password;
-//		private String enable;
-//		private USER_ROLES userRole; 
-//		
-//		public Builder userid(String userid) {
-//			this.userId = userid;
-//			return this;
-//		}
-//		
-//		public Builder password(String password) {
-//			this.password = password;
-//			return this;
-//		}
-//		
-//		public Builder enable(String enable) {
-//			this.enable = enable;
-//			return this;
-//		}
-//		
-//		public Builder role(USER_ROLES role) {
-//			this.userRole = role;
-//			return this;
-//		}
-//		
-//		public MSBAuth build() {
-//			return new MSBAuth( this );
-//		}
-//	}
 
 }

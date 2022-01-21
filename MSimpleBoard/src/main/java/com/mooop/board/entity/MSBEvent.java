@@ -33,7 +33,7 @@ import lombok.Setter;
 public class MSBEvent {
 	
 	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "EVENT_ID")
 	private Long idx;
 	

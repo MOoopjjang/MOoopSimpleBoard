@@ -3,9 +3,9 @@ spring:
   datasource:
     dbcp2:
       url: jdbc:mysql://localhost:3306/TESTDB?allowPublicKeyRetrieval=true&useSSL=false
-      username: cwkim
-      password: 1111
-      driver-class-name: com.mysql.jdbc.Driver
+      username: xxxx
+      password: xxxx1234
+      driver-class-name: com.mysql.cj.jdbc.Driver
       
       
   jpa:
@@ -14,7 +14,7 @@ spring:
        naming:
          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
      generate-ddl: false
-     show-sql: true
+     show-sql: false
      database: mysql
      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
      properties:
@@ -24,7 +24,7 @@ spring:
 
    
   
-debug: true
+debug: false
 
 #password 암호화 사용유     
 msp:
@@ -36,4 +36,9 @@ msp:
     enable: true
     path: /svc/dev/data/upload
     maxSize: 1
-    maxCount: 1 
+    maxCount: 1
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG

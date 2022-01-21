@@ -1,7 +1,17 @@
 package com.mooop.board.service.web;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
+import com.mooop.board.component.AttachFileService;
+import com.mooop.board.domain.web.UploadFileInfoVO;
+import com.mooop.board.entity.MSBUpload;
+import com.mooop.board.enums.UPLOAD_P_TYPE;
+import com.mooop.board.repo.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +23,10 @@ import com.mooop.board.entity.MSBHistory;
 import com.mooop.board.entity.MSBUser;
 import com.mooop.board.enums.USER_ROLES;
 import com.mooop.board.enums.USER_STATUS;
-import com.mooop.board.repo.AuthRepository;
-import com.mooop.board.repo.DaoManager;
-import com.mooop.board.repo.HistoryRespository;
 import com.mooop.board.repo.DaoManager.DAO_TYPE;
-import com.mooop.board.repo.UserRepository;
 import com.mooop.board.utils.MSecurityUtil;
 import com.mooop.board.utils.MStringUtil;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -31,9 +38,17 @@ import com.mooop.board.utils.MStringUtil;
 
 @Service("authService")
 public class AuthServiceImpl implements AuthService{
-	
-	@Autowired
+	private static Logger logger = LoggerFactory.getLogger("AuthServiceImpl");
+
 	private DaoManager daoManager;
+	private AttachFileService attachFileService;
+	public AuthServiceImpl(DaoManager daoManager
+	,AttachFileService attachFileService){
+		this.daoManager = daoManager;
+		this.attachFileService = attachFileService;
+	}
+	
+
 
 	@Override
 	public boolean register(UserItemVO rvo) throws Exception {
@@ -44,7 +59,7 @@ public class AuthServiceImpl implements AuthService{
 		authInfo.setEnable(rvo.getEnable());
 		authInfo.setEmail(rvo.getEmail());
 		authInfo.setUserRole(USER_ROLES.GUEST);
-		authInfo.setStatus(USER_STATUS.ACCESSION);
+		authInfo.setStatus(USER_STATUS.ACTIVE);
 		authInfo.setPassword(MSecurityUtil.makeGeneratePassowrd(rvo.getEmail() , rvo.getPassword()));
 		MSBUser userInfo = new MSBUser();
 		userInfo.setUserName(rvo.getUserName());
@@ -53,9 +68,11 @@ public class AuthServiceImpl implements AuthService{
 		userInfo.setUserDesc(rvo.getDesc());
 		userInfo.setAuth(authInfo);
 		authInfo.setUser(userInfo);
-		
-		repository.save(authInfo);
-		
+
+		MSBAuth saveInfo = repository.saveAndFlush(authInfo);
+
+		//첨부된 사진이 있을경우
+		procAttachFile(rvo , saveInfo);
 		return true;
 	}
 	
@@ -71,6 +88,9 @@ public class AuthServiceImpl implements AuthService{
 			
 			authInfo.getUser().setAuth(authInfo);
 			repository.flush();
+
+			//첨부된 사진이 있을경우
+			procAttachFile(rvo , authInfo);
 			return true;
 		}).orElse(false);
 	}
@@ -78,18 +98,9 @@ public class AuthServiceImpl implements AuthService{
 	@Override
 	public boolean unregister(String email) throws Exception {
 		AuthRepository repository = (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
-		return Optional.of(repository.findByEmail(email)).map(removeAuth->{
-			/**
-			 * - User 상태 변경 ( ACCESSION -- > SECESSION ) 
-			 * -      패스워드 변경
-			 * -      계정 비활성화
-			 */
-			removeAuth.setEnable("N");
-			removeAuth.setStatus(USER_STATUS.SECESSION);
-			removeAuth.setPassword(MStringUtil.randomStringGenerator(Defines.RANDOM_STRING_GEN_LEN));
-			repository.flush();
-			return true;
-		}).orElse(false);
+		repository.delete(repository.findByEmail(email));
+		repository.flush();
+		return true;
 	}
 	
 	
@@ -146,6 +157,25 @@ public class AuthServiceImpl implements AuthService{
 
 	@Override
 	public boolean restoreLoginHistory(){
+
+		return Optional.of(MSecurityUtil.username()).map(email->{
+			HistoryRespository hisRepository =  (HistoryRespository) daoManager.getRepository(DAO_TYPE.HISTORY);
+			AuthRepository authRepository =  (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
+
+			MSBAuth auth = authRepository.findByEmail(email);
+			if(auth.getHistory() == null){
+				logger.info("getHistory is Null");
+				MSBHistory history = new MSBHistory();
+				hisRepository.save(history);
+			}else{
+				logger.info("getHistory is Not Null");
+			}
+
+
+			return true;
+		}).orElse(false);
+
+		/*
 		return Optional.of(MSecurityUtil.username()).map(email->{
 			HistoryRespository hisRepository =  (HistoryRespository) daoManager.getRepository(DAO_TYPE.HISTORY);
 			AuthRepository authRepository =  (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
@@ -159,6 +189,35 @@ public class AuthServiceImpl implements AuthService{
 			hisRepository.save(history);
 			return true;
 		}).orElse(false);
+		 */
+
+	}
+
+
+	private void procAttachFile(UserItemVO rvo , MSBAuth authInfo){
+		if(!rvo.getFiles().isEmpty()){
+			List<UploadFileInfoVO> list = attachFileService.upload(rvo.getFiles() , authInfo.getEmail());
+			for(UploadFileInfoVO ufv : list){
+				UploadRepository uploadRepository = (UploadRepository) daoManager.getRepository(DAO_TYPE.UPLOAD);
+				MSBUpload info =  uploadRepository.findByBrdIdxAndUtype(authInfo.getId() , UPLOAD_P_TYPE.REG.getType());
+				if(info == null){ //신규등록
+					MSBUpload uploadData = new MSBUpload();
+					uploadData.setBrd_idx(authInfo.getId());
+					uploadData.setCname(ufv.getCname());
+					uploadData.setOname(ufv.getOname());
+					uploadData.setPath(ufv.getPath());
+					uploadData.setUtype(UPLOAD_P_TYPE.REG.getType());
+					uploadData.setSize(ufv.getSize());
+					uploadRepository.saveAndFlush(uploadData);
+				}else{	//변경
+					info.setCname(ufv.getCname());
+					info.setOname(ufv.getOname());
+					info.setPath(ufv.getPath());
+					info.setSize(ufv.getSize());
+					uploadRepository.saveAndFlush(info);
+				}
+			}
+		}
 	}
 
 }

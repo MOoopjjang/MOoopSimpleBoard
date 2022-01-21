@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="ppt_s" width="14" height="16" viewBox="0 0 14 16">
+    <defs>
+        <style>
+            .cls-3{fill:#cad1d8}.cls-5{fill:#fff}
+        </style>
+    </defs>
+    <path id="Path_185" fill="#e2e5e7" d="M97 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4l-4-4z" transform="translate(-94)"/>
+    <path id="Path_186" fill="#b0b7bd" d="M353 4h3l-4-4v3a1 1 0 0 0 1 1z" transform="translate(-342)"/>
+    <path id="Path_187" d="M387 131l-3-3h3z" class="cls-3" transform="translate(-373 -124)"/>
+    <path id="Path_188" fill="#f15642" d="M44 245.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5z" transform="translate(-32 -232.5)"/>
+    <g id="Group_120" transform="translate(2.296 9.198)">
+        <path id="Path_189" d="M105.456 294.6a.275.275 0 0 1 .271-.276h.924a1 1 0 0 1 0 2h-.667v.528a.251.251 0 0 1-.256.276.269.269 0 0 1-.271-.276V294.6zm.528.227v1h.667a.5.5 0 0 0 0-1z" class="cls-5" transform="translate(-105.456 -294.32)"/>
+        <path id="Path_190" d="M191.616 294.6a.275.275 0 0 1 .272-.276h.923a1 1 0 0 1 0 2h-.667v.528a.251.251 0 0 1-.256.276.27.27 0 0 1-.272-.276zm.527.227v1h.668a.5.5 0 0 0 0-1z" class="cls-5" transform="translate(-188.923 -294.32)"/>
+        <path id="Path_191" d="M271.92 295.615h-.7a.256.256 0 1 1 0-.512h1.891a.256.256 0 1 1 0 .512h-.664v2.019a.264.264 0 0 1-.528 0z" class="cls-5" transform="translate(-265.788 -295.079)"/>
+    </g>
+    <path id="Path_192" d="M105.5 416.5H96v.5h9.5a.5.5 0 0 0 .5-.5v-.5a.5.5 0 0 1-.5.5z" class="cls-3" transform="translate(-94 -403)"/>
+</svg>

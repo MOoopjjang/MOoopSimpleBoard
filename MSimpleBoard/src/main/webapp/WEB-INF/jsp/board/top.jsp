@@ -1,6 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
+
 <style>
 
 	.top-label-nick{
@@ -101,12 +101,6 @@
 	</nav>
 </div>
 
-<script src="${pageContext.request.contextPath}/resources/asset/jquery-3.4.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/asset/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/asset/jquery-loading/dist/jquery.loading.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/network.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/uicommon.js"></script>
 <script type="text/javascript">
 	/* 로그아웃 */
 	function logoutFunc(){

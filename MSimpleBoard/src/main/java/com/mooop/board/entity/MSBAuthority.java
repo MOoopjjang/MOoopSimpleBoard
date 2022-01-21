@@ -32,7 +32,7 @@ public class MSBAuthority {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "AUTHORITY_ID")
 	private Long idx;
 	

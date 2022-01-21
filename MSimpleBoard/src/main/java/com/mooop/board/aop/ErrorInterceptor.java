@@ -19,7 +19,7 @@ public class ErrorInterceptor extends HandlerInterceptorAdapter{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-		if(MStringUtil.validCheck(statusCode)) {
+		if(modelAndView != null && MStringUtil.validCheck(statusCode)) {
 			if(statusCode.intValue() == 400) {
 				ResponseErrorVO errorVo = new ResponseErrorVO("400" , GlobalError.MSB_ERROR_400 , ErrorDefines.getErrorMessage( GlobalError.MSB_ERROR_400));
 				modelAndView.setViewName("common/error");
