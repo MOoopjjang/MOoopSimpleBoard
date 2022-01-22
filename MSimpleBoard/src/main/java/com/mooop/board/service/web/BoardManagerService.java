@@ -1,9 +1,8 @@
 package com.mooop.board.service.web;
 
-import org.springframework.data.domain.Page;
-
 import com.mooop.board.domain.web.AdmUserItemVO;
 import com.mooop.board.domain.web.BoardItemVO;
+import org.springframework.data.domain.Page;
 
 public interface BoardManagerService {
 	

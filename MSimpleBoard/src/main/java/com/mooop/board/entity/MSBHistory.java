@@ -14,6 +14,7 @@ import org.hibernate.annotations.DynamicInsert;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 
 /**
@@ -28,19 +29,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "MSB_HISTORY")
 @DynamicInsert
-public class MSBHistory implements Serializable{
+public class MSBHistory extends BaseEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "HIS_ID")
 	private Long id;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING , pattern="yyyy-MM-ddHH:mm:ss" , timezone="Asia/Seoul")
-	@CreationTimestamp
-	@Column(name = "CREATE_DT")
-	private LocalDateTime createDt;
-	
-	
+
 	@JoinColumn(name = "AUTH_ID")
 	@OneToOne
 	private MSBAuth auth;

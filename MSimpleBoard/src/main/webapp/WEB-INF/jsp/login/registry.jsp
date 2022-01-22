@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.mooop.board.domain.ViewResponse" %>
 <%@ page import="com.mooop.board.domain.web.UserItemVO" %>
 <%@ page import="com.mooop.board.domain.web.ViewInfoVO" %>
@@ -125,49 +125,15 @@
 						<c:otherwise>편집</c:otherwise>
 					</c:choose>
 				</button>
-
 				<c:if test="${mode=='board' && role!=null && role!='ADMIN'}">
-
 					<button type="button"  class="btn-md" onclick="unregister()">탈퇴</button>
-
 				</c:if>
 			</div>
-
-			<%--
-		<c:if test="${mode=='board' && role!=null && role!='ADMIN'}">
-			<div style="margin-top:2px;">
-				<button type="button"  class="btn-md" onclick="unregister()">탈퇴</button>
-			</div>
-		</c:if>
-			 --%>
 		</form>
 
 	</div>
 	<!-- 탈퇴 질의 modal  -->
-	<div class="modal fade" id="pwdModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-
-				<!-- header -->
-				<div class="modal-header">
-					<h4 class="modal-title">암호를 입력하세요</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<!-- body -->
-				<div class="modal-body">
-					<input class="form-control" type="password" placeholder="암호" name="password" id="password">
-				</div>
-
-				<!-- footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="authenticationProc('${email}')">확인</button>
-				</div>
-
-			</div>
-		</div>
-
-
+	<%@ include file="../board/board_password.jsp" %>
 
 		<c:remove var="mode" scope="page"/>
 		<c:remove var="metaData" scope="page"/>
@@ -181,20 +147,20 @@
          -->
 		<script type="text/javascript">
 
-			let $email = document.getElementById('email');
-			let $nick = document.getElementById('nick');
-			let $name = document.getElementById('name');
-			let $fpassword = document.getElementById('fpassword');
-			let $cpassword = document.getElementById('cpassword');
-			let $address = document.getElementById('address');
-			let $desc = document.getElementById('desc');
-			let $disable = document.getElementById('disable');
-			let $subtitle = document.getElementById('subtitle');
-			let $btn_action = document.getElementById('btn_action');
-			let $roleCategory = document.getElementById('roleCategory');
-			let $upload_file = document.getElementById('upload_file');
+			var $email = document.getElementById('email');
+			var $nick = document.getElementById('nick');
+			var $name = document.getElementById('name');
+			var $fpassword = document.getElementById('fpassword');
+			var $cpassword = document.getElementById('cpassword');
+			var $address = document.getElementById('address');
+			var $desc = document.getElementById('desc');
+			var $disable = document.getElementById('disable');
+			var $subtitle = document.getElementById('subtitle');
+			var $btn_action = document.getElementById('btn_action');
+			var $roleCategory = document.getElementById('roleCategory');
+			var $upload_file = document.getElementById('upload_file');
 
-			let fullUrl = '';
+			var fullUrl = '';
 
 			$(document).ready(()=>{
 				$(".custom-file-input").on("change", function() {
@@ -352,7 +318,7 @@
 						stopLoading();
 						if(response.result === 'OK'){
 							alert('사용자 정보가 변경되었습니다.');
-							movePage('${pageContext.request.contextPath}/board/');
+							movePage('/board/');
 						}else{
 							alert('오류가 발생하였습니다.!');
 						}
@@ -368,7 +334,6 @@
 
 			/* 탈퇴 popup */
 			function unregister(){
-				let $pwdModal = document.getElementById('pwdModal');
 				$("#pwdModal").modal('toggle');
 			}
 
@@ -468,7 +433,6 @@
 						contentType : 'application/json',
 						success : function(response){
 							if(response.result === 'OK' && response.reason === 'equal'){
-								alert('authentication : '+_email);
 								resolve(_email);
 							}else{
 								reject('암호가 일치하지 않습니다.!');
@@ -515,10 +479,11 @@
 
 			/* 3. 화면 이동 */
 			function moveLogout(_msg){
-				movePage('${pageContext.request.contextPath}/logout');
+				movePage('/logout');
 			}
 
 			function exceptionFunction(){
+				document.getElementById('password').value = '';
 				alert('오류가 발생하였습니다.');
 			}
 

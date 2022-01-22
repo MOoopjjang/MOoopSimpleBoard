@@ -31,7 +31,7 @@ import lombok.ToString;
 @ToString(exclude = {"regDate"})
 @Entity
 @Table(name = "MSB_UPLOAD")
-public class MSBUpload {
+public class MSBUpload extends BaseEntity{
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "IDX")
@@ -49,19 +49,10 @@ public class MSBUpload {
 	@Column(name = "ONAME" , nullable = false)
 	private String oname;
 
-//	@Column(name = "UTYPE" , nullable = false)
-//	private String utype;
-
 	@Column(name = "UTYPE" , nullable = false)
 	@Enumerated(EnumType.STRING)
 	private UPLOAD_P_TYPE utype;
 	
 	@Column(name = "SIZE" , nullable = false)
 	private Long size;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "Asia/Seoul")
-	@CreationTimestamp
-	@Column(name = "REG_DATE")
-	private LocalDateTime regDate;
-
 }

@@ -6,7 +6,7 @@
 <%@ page import="org.springframework.data.domain.Page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link rel='stylesheet' type="text/css" href="${pageContext.request.contextPath}/resources/css/registry.css?ver=1">
+<link rel='stylesheet' type="text/css" href="/resources/css/registry.css?ver=1">
 
 <%
 	AdmViewResponse<BoardItemVO> ar = (AdmViewResponse<BoardItemVO>)request.getAttribute("xdata");
@@ -62,7 +62,7 @@
     	
 		startLoading('삭제 진행중...');
     	$.ajax({
-			url : '${pageContext.request.contextPath}/admin/api/board/remove',
+			url : '/admin/api/board/remove',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
@@ -73,7 +73,7 @@
 				stopLoading();
 				if(response.result === 'OK'){
 					alert('삭제되었습니다..!'); 
-				 	movePage('${pageContext.request.contextPath}/admin/board/most/hit');
+				 	movePage('/admin/board/most/hit');
 				}else{
 					alert('오류가 발생하였습니다.!');
 				}

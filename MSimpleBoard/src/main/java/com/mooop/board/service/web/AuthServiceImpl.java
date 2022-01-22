@@ -1,32 +1,25 @@
 package com.mooop.board.service.web;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-
 import com.mooop.board.component.AttachFileService;
-import com.mooop.board.domain.web.UploadFileInfoVO;
-import com.mooop.board.entity.MSBUpload;
-import com.mooop.board.enums.UPLOAD_P_TYPE;
-import com.mooop.board.repo.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.mooop.board.constants.Defines;
 import com.mooop.board.domain.web.AuthenticationVO;
+import com.mooop.board.domain.web.UploadFileInfoVO;
 import com.mooop.board.domain.web.UserItemVO;
 import com.mooop.board.entity.MSBAuth;
 import com.mooop.board.entity.MSBHistory;
+import com.mooop.board.entity.MSBUpload;
 import com.mooop.board.entity.MSBUser;
+import com.mooop.board.enums.UPLOAD_P_TYPE;
 import com.mooop.board.enums.USER_ROLES;
 import com.mooop.board.enums.USER_STATUS;
+import com.mooop.board.repo.*;
 import com.mooop.board.repo.DaoManager.DAO_TYPE;
 import com.mooop.board.utils.MSecurityUtil;
-import com.mooop.board.utils.MStringUtil;
-import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -98,8 +91,11 @@ public class AuthServiceImpl implements AuthService{
 	@Override
 	public boolean unregister(String email) throws Exception {
 		AuthRepository repository = (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
-		repository.delete(repository.findByEmail(email));
-		repository.flush();
+		Optional.ofNullable(repository.findByEmail(email))
+			.ifPresent(auth->{
+				repository.delete(auth);
+				repository.flush();
+			});
 		return true;
 	}
 	
@@ -182,7 +178,7 @@ public class AuthServiceImpl implements AuthService{
 			List<UploadFileInfoVO> list = attachFileService.upload(rvo.getFiles() , authInfo.getEmail());
 			for(UploadFileInfoVO ufv : list){
 				UploadRepository uploadRepository = (UploadRepository) daoManager.getRepository(DAO_TYPE.UPLOAD);
-				MSBUpload info =  uploadRepository.findByBrdIdxAndUtype(authInfo.getId() , UPLOAD_P_TYPE.REG.getType());
+				MSBUpload info =  uploadRepository.findByBrdIdxAndUtype(authInfo.getId() , UPLOAD_P_TYPE.REG);
 				if(info == null){ //신규등록
 					MSBUpload uploadData = new MSBUpload();
 					uploadData.setBrd_idx(authInfo.getId());

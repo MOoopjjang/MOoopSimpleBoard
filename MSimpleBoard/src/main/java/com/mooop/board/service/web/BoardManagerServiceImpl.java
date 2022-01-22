@@ -3,7 +3,6 @@ package com.mooop.board.service.web;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
@@ -22,18 +21,20 @@ import com.mooop.board.utils.MDateUtil;
 
 @Service("boardManagerService")
 public class BoardManagerServiceImpl implements BoardManagerService{
-	
-	@Autowired
-	DaoManager daoManager;
-	
-	
+
+	private final DaoManager daoManager;
+	public BoardManagerServiceImpl(DaoManager daoManager) {
+		this.daoManager = daoManager;
+	}
+
+
 	@Override
 	public Page<BoardItemVO> getMostHitsBoardItemList() {
 		BoardRepository boardRepository =  (BoardRepository) daoManager.getRepository(DAO_TYPE.BRD);
 		
 		return new PageImpl<BoardItemVO>(boardRepository.findAll(new Sort(Direction.DESC , "hit")).stream().limit(10).map(brd->{
 			return BoardItemVO.builder().idx(brd.getId())
-					.create(brd.getDtCreate())
+					.create(brd.getCreateDt())
 					.title(brd.getTitle())
 					.sec(brd.getSecYN())
 					.nick(brd.getUser().getUserNick())
@@ -52,7 +53,6 @@ public class BoardManagerServiceImpl implements BoardManagerService{
 			return Integer.compare(s2.getBoards().size(), s1.getBoards().size());
 		}).collect(Collectors.toList());
 		return new PageImpl<AdmUserItemVO>(l.stream().limit(10).map(u->{
-//					MSBHistory his = u.getAuth().getHistorys().stream().sorted((s1,s2)->s1.getDtLogin().compareTo(s2.getDtLogin())).findFirst().get();
 					MSBHistory his = u.getAuth().getHistory();
 					AdmUserItemVO auivo = new AdmUserItemVO();
 					auivo.setUserName(u.getUserName());

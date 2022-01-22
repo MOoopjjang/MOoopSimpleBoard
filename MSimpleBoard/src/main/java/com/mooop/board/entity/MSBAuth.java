@@ -43,14 +43,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "MSB_AUTH")
 @DynamicInsert
-public class MSBAuth implements Serializable{
+public class MSBAuth extends BaseEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "AUTH_ID")
 	private Long id;
 	
-	@Column(name = "EMAIL" , length = 20)
+	@Column(name = "EMAIL" , length = 60)
 	private String email;
 	
 	@Column(name = "PASSWORD")
@@ -67,24 +67,10 @@ public class MSBAuth implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private USER_ROLES userRole; 
 	
-	@Column(name = "DT_CREATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	@ColumnDefault("CURRENT_TIMESTAMP")
-	private Date dtCreate;
-	
-	
-	@Column(name = "DT_UPDATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	@ColumnDefault("CURRENT_TIMESTAMP")
-	private Date dtUpdate;
-	
-//	@OneToMany(mappedBy = "auth" , cascade = CascadeType.PERSIST)
-//	private List<MSBHistory> historys = new ArrayList<>();
-
-	@OneToOne(mappedBy = "auth", cascade = {CascadeType.PERSIST , CascadeType.REMOVE})
+	@OneToOne(mappedBy = "auth", cascade = {CascadeType.ALL})
 	private MSBHistory history;
 
-	@OneToOne(mappedBy ="auth" , cascade = {CascadeType.PERSIST , CascadeType.REMOVE})
+	@OneToOne(mappedBy ="auth" , cascade = {CascadeType.ALL})
 	private MSBUser user;
 
 }

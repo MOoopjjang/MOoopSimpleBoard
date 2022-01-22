@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.BaseSessionEventListener;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -30,7 +31,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "MSB_EVENT")
 @DynamicInsert
-public class MSBEvent {
+public class MSBEvent extends BaseEntity {
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,9 +53,4 @@ public class MSBEvent {
 	@Column(name = "ENABLE")
 	private String enable;
 
-	@Column(name = "DT_CREATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	@ColumnDefault("CURRENT_TIMESTAMP")
-	private Date dtCreate;
-	
 }

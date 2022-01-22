@@ -25,7 +25,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "MSB_SETTING")
 @DynamicInsert
-public class MSBSetting {
+public class MSBSetting extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

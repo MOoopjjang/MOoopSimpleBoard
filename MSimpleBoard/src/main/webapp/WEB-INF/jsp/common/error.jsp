@@ -71,7 +71,7 @@
 		<script type="text/javascript">
 			
 			function goHome(){
-				movePage('${pageContext.request.contextPath}/board/main?category=&text=&page=0&size=10');
+				movePage('/board/main?category=&text=&page=0&size=10');
 			}
 		
 		</script>

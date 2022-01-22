@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.mooop.board.domain.AdmViewResponse" %>
 <%@ page import="com.mooop.board.domain.web.ViewResultVO" %>
 <%@ page import="com.mooop.board.domain.web.BoardItemVO" %>
@@ -12,13 +11,10 @@
 	AdmViewResponse<Page<BoardItemVO>> admViewResponse = (AdmViewResponse<Page<BoardItemVO>>)request.getAttribute("xdata");
 	Page<BoardItemVO> pageInfo = admViewResponse.getData();
 	List<BoardItemVO> items = pageInfo.getContent();
-	
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 %>
 
 <c:set var="pageInfo" value="<%= pageInfo %>" scope="page" />
 <c:set var="items" value="<%= items %>" scope="page" />
-<c:set var="sdf" value="<%=sdf %>" scope="page"/>
 
 <div class="content_wrap">
 	<div class="container">
@@ -41,7 +37,7 @@
 							<td>${status.count}</td>
 							<td><a href="javascript:void(0);" onclick="moveDViewPage('${item.getBoardIdx()}')" style="color:black;">${item.getTitle()}</a></td>
 							<td>${item.getNick()}</td>
-							<td>${sdf.format(item.getDtCreate())}</td>
+							<td>${item.dtCreate}</td>
 							<td>${item.getHit()}</td>
 						</tr>
 					</c:forEach>
@@ -56,13 +52,12 @@
 
 <c:remove var="pageInfo" scope="page"/>
 <c:remove var="items" scope="page"/>
-<c:remove var="sdf" scope="page"/>
 
 <script type="text/javascript">
 
 	/* 상세페이지 이동 */
 	function moveDViewPage(_idx){
-		movePage('${pageContext.request.contextPath}/admin/board/dview?idx='+_idx);
+		movePage('/admin/board/dview?idx='+_idx);
 	}
 
 </script>

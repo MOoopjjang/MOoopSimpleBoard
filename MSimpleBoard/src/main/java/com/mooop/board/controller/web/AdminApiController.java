@@ -2,6 +2,7 @@ package com.mooop.board.controller.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.mooop.board.constants.Defines;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -133,9 +134,9 @@ public class AdminApiController extends MSBBaseController{
 		ResponseVO<String> result = null;
 		try {
 			if(boardManagerService.removeBoardItemInfo(bivo.getBoardIdx())) {
-				result = ResponseVO.builder().result("OK").reason("").data(null).build();
+				result = ResponseVO.builder().result("OK").reason(Defines.EMPTY_STRING).data(null).build();
 			}else {
-				result = ResponseVO.builder().result("FAILED").reason("").data(null).build();
+				result = ResponseVO.builder().result("FAILED").reason(Defines.EMPTY_STRING).data(null).build();
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

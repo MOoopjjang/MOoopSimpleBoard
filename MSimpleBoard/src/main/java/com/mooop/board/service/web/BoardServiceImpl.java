@@ -60,7 +60,7 @@ public class BoardServiceImpl implements BoardService{
 				.title(brd.getTitle())
 				.content(brd.getContent())
 				.sec(brd.getSecYN())
-				.create(brd.getDtCreate())
+				.create(brd.getCreateDt())
 				.hit(brd.getHit())
 				.uploadFile(getBrdUploadFileInfo(brd.getId()))
 				.build();
@@ -79,7 +79,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		Page<BoardItemVO> pageInfo = null;
 		//갱신날짜로 sorting...
-		Sort sort = new Sort(Direction.DESC , "dtUpdate");
+		Sort sort = new Sort(Direction.DESC , "updateDt");
 		if(MStringUtil.validCheck(category) && MStringUtil.validCheck(text)) {
 			if(category.equals("nick")) {
 				pageInfo = repository.findByNick(text, PageRequest.of(nPage, nSize , sort)).map(convertFunc);
@@ -111,7 +111,7 @@ public class BoardServiceImpl implements BoardService{
 					.title(brd.getTitle())
 					.content(brd.getContent())
 					.sec(brd.getSecYN())
-					.create(brd.getDtCreate())
+//					.create(brd.getDtCreate())
 					.hit(brd.getHit())
 					.uploadFile(getBrdUploadFileInfo(brd.getId()))
 					.build();
@@ -165,7 +165,7 @@ public class BoardServiceImpl implements BoardService{
 			brd.setTitle(item.getTitle());
 			brd.setSecYN(item.getSecYn());
 			brd.setContent(item.getContent());
-			brd.setDtUpdate((new Date()));
+//			brd.setDtUpdate((new Date()));
 			
 			brdRepository.flush();
 			

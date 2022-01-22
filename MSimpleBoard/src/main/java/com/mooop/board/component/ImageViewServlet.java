@@ -26,7 +26,7 @@ import java.io.IOException;
  * Package :com.mooop.board.component
  * Author :  MOoop
  * Date : 18/09/2021
- * Desc : 첨부파일중 image를 html에 출력해주는 공통 Servlet
+ * Desc : 첨부파일중 image를 web page에 출력해주는 공통 Servlet
  */
 @Slf4j
 @WebServlet(name = "ImageViewServlet" , urlPatterns = {"/ImageView"})
@@ -48,7 +48,7 @@ public class ImageViewServlet extends HttpServlet {
             MSBAuth auth = authRepository.findByEmail(email);
             if(auth != null){
                 UploadRepository uploadRepository = (UploadRepository) daoManager.getRepository(DaoManager.DAO_TYPE.UPLOAD);
-                MSBUpload info =  uploadRepository.findByBrdIdxAndUtype(auth.getId() , UPLOAD_P_TYPE.REG.getType());
+                MSBUpload info =  uploadRepository.findByBrdIdxAndUtype(auth.getId() , UPLOAD_P_TYPE.REG);
                 if(info != null){
                     imagePath = info.getPath();
                 }

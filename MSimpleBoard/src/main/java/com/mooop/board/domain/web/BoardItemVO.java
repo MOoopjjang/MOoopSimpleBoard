@@ -1,5 +1,6 @@
 package com.mooop.board.domain.web;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -33,8 +34,11 @@ public class BoardItemVO {
 	@JsonProperty("secyn")
 	private String secYn;
 	
+//	@JsonProperty("create")
+//	private Date dtCreate;
+
 	@JsonProperty("create")
-	private Date dtCreate;
+	private LocalDateTime dtCreate;
 	
 	@JsonProperty("hit")
 	private Integer hit;
@@ -70,7 +74,8 @@ public class BoardItemVO {
 		private String title;
 		private String content;
 		private String secYn;
-		private Date dtCreate;
+//		private Date dtCreate;
+		private LocalDateTime dtCreate;
 		private Integer hit;
 		private List<UploadFileInfoVO> uploadFileInfos;
 		
@@ -109,7 +114,12 @@ public class BoardItemVO {
 			return this;
 		}
 		
-		public Builder create(Date date) {
+//		public Builder create(Date date) {
+//			this.dtCreate = date;
+//			return this;
+//		}
+
+		public Builder create(LocalDateTime date) {
 			this.dtCreate = date;
 			return this;
 		}

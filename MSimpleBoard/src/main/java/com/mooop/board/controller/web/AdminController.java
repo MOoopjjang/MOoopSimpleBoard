@@ -1,12 +1,14 @@
 package com.mooop.board.controller.web;
 
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.mooop.board.constants.GlobalError;
+import com.mooop.board.domain.AdmViewResponse;
+import com.mooop.board.domain.web.*;
+import com.mooop.board.enums.EVENT_DVIEW_MODE;
+import com.mooop.board.enums.USER_LIST_MODE;
+import com.mooop.board.exception.GlobalException;
+import com.mooop.board.utils.MDateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,24 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mooop.board.constants.GlobalError;
-import com.mooop.board.domain.AdmViewResponse;
-import com.mooop.board.domain.web.AdmUserItemVO;
-import com.mooop.board.domain.web.AdmViewInfoVO;
-import com.mooop.board.domain.web.AuthorityItemVO;
-import com.mooop.board.domain.web.BoardItemVO;
-import com.mooop.board.domain.web.EventItemVO;
-import com.mooop.board.domain.web.PagingItemVO;
-import com.mooop.board.domain.web.SearchResponseVO;
-import com.mooop.board.domain.web.UserItemVO;
-import com.mooop.board.domain.web.ViewResultVO;
-import com.mooop.board.enums.EVENT_DVIEW_MODE;
-import com.mooop.board.enums.USER_LIST_MODE;
-import com.mooop.board.exception.GlobalException;
-import com.mooop.board.service.web.BoardManagerService;
-import com.mooop.board.service.web.EventManagerServiceImpl;
-import com.mooop.board.service.web.UserManagerServiceImpl;
-import com.mooop.board.utils.MDateUtil;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 
 /**

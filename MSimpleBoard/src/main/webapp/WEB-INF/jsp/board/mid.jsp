@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 %>
 
 <style type="text/css">
@@ -25,7 +25,7 @@
 	Integer nStart = (pageInfo.getNumber()/10)*10;
 %>
 
-	<c:set var="sdf" value="<%=sdf %>" scope = "page"/>
+<%--	<c:set var="sdf" value="<%=sdf %>" scope = "page"/>--%>
 	<c:set var="startindex" value="<%= nStart %>" scope="page" />
 
 <div class="container">
@@ -69,34 +69,34 @@
 								<c:if test="${item.uploadFileInfos.size() > 0}">
 									<c:choose>
 										<c:when test='${item.uploadFileInfos[0].oname.endsWith(".png") == true}'>
-											<img src="${pageContext.request.contextPath}/resources/img/png_s.svg" />
+											<img src="/resources/img/png_s.svg" />
 										</c:when>
 										<c:when test='${item.uploadFileInfos[0].oname.endsWith(".jpg") == true || item.uploadFileInfos[0].oname.endsWith(".jpeg") == true}'>
-											<img src="${pageContext.request.contextPath}/resources/img/jpg_s.svg" />
+											<img src="/resources/img/jpg_s.svg" />
 										</c:when>
 										<c:when test='${item.uploadFileInfos[0].oname.endsWith(".pdf") == true}'>
-											<img src="${pageContext.request.contextPath}/resources/img/pdf_s.svg" />
+											<img src="/resources/img/pdf_s.svg" />
 										</c:when>
 										<c:when test='${item.uploadFileInfos[0].oname.endsWith(".doc") == true || item.uploadFileInfos[0].oname.endsWith(".docx") == true}'>
-											<img src="${pageContext.request.contextPath}/resources/img/doc_s.svg" />
+											<img src="/resources/img/doc_s.svg" />
 										</c:when>
 										<c:when test='${item.uploadFileInfos[0].oname.endsWith(".ppt") == true || item.uploadFileInfos[0].oname.endsWith(".pptx") == true}'>
-											<img src="${pageContext.request.contextPath}/resources/img/ppt_s.svg" />
+											<img src="/resources/img/ppt_s.svg" />
 										</c:when>
 										<c:when test='${item.uploadFileInfos[0].oname.endsWith(".xls") == true || item.uploadFileInfos[0].oname.endsWith(".xlsx") == true}'>
-											<img src="${pageContext.request.contextPath}/resources/img/xls_s.svg" />
+											<img src="/resources/img/xls_s.svg" />
 										</c:when>
 										<c:otherwise>
-											<img src="${pageContext.request.contextPath}/resources/img/unknown_s.svg" />
+											<img src="/resources/img/unknown_s.svg" />
 										</c:otherwise>
 									</c:choose>
 								</c:if>
 								<c:if test="${item.getSecYn() == 'Y'}">
-									<img src="${pageContext.request.contextPath}/resources/img/item_locked.png" style="width:20px;height:20px;" />
+									<img src="/resources/img/item_locked.png" style="width:20px;height:20px;" />
 								</c:if>
 							</td>
 							<td>${item.getNick()}</td>
-							<td>${sdf.format(item.getDtCreate())}</td>
+							<td>${item.dtCreate}</td>
 							<td>${item.getHit()}</td>
 						</tr>
 						</c:forEach>
@@ -119,15 +119,15 @@
 				<ul class="pagination">
 				<c:if test="${startindex >= 10 }">
 					<li class="page-item">
-						<a class="page-link" href="${pageContext.request.contextPath}/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
+						<a class="page-link" href="/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
 							&text=<c:if test="${searchInfo!=null && searchInfo.getText()!=null }">${searchInfo.getText()}</c:if>&page=${startindex - 10}&size=10">
-							<img alt="" src="${pageContext.request.contextPath}/resources/img/icon_left_arrow.png" style="width:20px;height:20px;">
+							<img alt="" src="/resources/img/icon_left_arrow.png" style="width:20px;height:20px;">
 						</a>
 					</li>
 				</c:if>
 				<c:if test="${pageInfo.getNumber() != 0}">
 					<li class="page-item">
-						<a class="page-link" href="${pageContext.request.contextPath}/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
+						<a class="page-link" href="/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
 						&text=<c:if test="${searchInfo!=null && searchInfo.getText()!=null }">${searchInfo.getText()}</c:if>&page=${pageInfo.getNumber()-1}&size=10">
 						이전</a>
 					</li>
@@ -139,7 +139,7 @@
 									((pageInfo.getNumber()/10)*10) +((pageInfo.getTotalPages() - ((pageInfo.getNumber()/10)*10))-1) %>" />
 				<c:forEach var="i" begin="${startindex}" end="${ending}" step="1">
 					<li class="page-item <c:if test="${pageInfo.getNumber() == i}"> active</c:if>">
-						<a class="page-link" href="${pageContext.request.contextPath}/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
+						<a class="page-link" href="/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
 						&text=<c:if test="${searchInfo!=null && searchInfo.getText()!=null }">${searchInfo.getText()}</c:if>&page=${i}&size=10" >
 						${i+1}</a>
 					</li>
@@ -147,7 +147,7 @@
 				
 				<c:if test="${pageInfo.getNumber() != pageInfo.getTotalPages()-1}">
 					<li class="page-item">
-						<a class="page-link" href="${pageContext.request.contextPath}/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
+						<a class="page-link" href="/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
 							&text=<c:if test="${searchInfo!=null && searchInfo.getText()!=null }">${searchInfo.getText()}</c:if>&page=${pageInfo.getNumber()+1}&size=10">
 						다음</a>
 					</li>
@@ -155,23 +155,14 @@
 				
 				<c:if test="${(pageInfo.getTotalPages() - startindex) > 10 }">
 					<li class="page-item">
-						<a class="page-link" href="${pageContext.request.contextPath}/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
+						<a class="page-link" href="/board/main?category=<c:if test="${searchInfo!=null && searchInfo.getCategory()!=null }">${searchInfo.getCategory()}</c:if>
 							&text=<c:if test="${searchInfo!=null && searchInfo.getText()!=null }">${searchInfo.getText()}</c:if>&page=${startindex + 10}&size=10">
-							<img alt="" src="${pageContext.request.contextPath}/resources/img/icon_right_arrow.png" style="width:20px;height:20px;">
+							<img alt="" src="/resources/img/icon_right_arrow.png" style="width:20px;height:20px;">
 						</a>
 					</li>
 				</c:if>
 				</ul>
 			</nav>
-			
-<%--			<c:if test="${role != 'GUEST' }">--%>
-<%--			<div style="float:right;">--%>
-<%--				<a class="btn btn-primary" role="button" href="javascript:void(0);" onclick="writeBoard()">--%>
-<%--					<i class="fa fa-save fa-2">&nbsp;</i>글쓰기--%>
-<%--				</a>--%>
-<%--			</div>--%>
-<%--			</c:if>--%>
-			
 		</div>
 		</c:if>
 		<c:if test="${role != 'GUEST' }">
@@ -187,7 +178,7 @@
 	
 </div>
 
-<c:remove var="sdf" scope="page"/>
+<%--<c:remove var="sdf" scope="page"/>--%>
 <c:remove var="startindex" scope="page" />
 
 <script type="text/javascript">
@@ -207,7 +198,7 @@
 			$("#pwdModal").modal('toggle');
 		}else{
 			email = '';
-			$.get('${pageContext.request.contextPath}/board/dview?idx='+_idx , data=>{
+			$.get('/board/dview?idx='+_idx , data=>{
 				$('#user_info_layer').removeClass('dn');
 				$('#user_info_layer').empty().append(data);
 			});
@@ -240,7 +231,7 @@
 
 		let $form = document.createElement('form');
 		$form.setAttribute('method','GET');
-		$form.setAttribute('action' ,'${pageContext.request.contextPath}/board/main?' )
+		$form.setAttribute('action' ,'/board/main?' )
 		
 		for(let key in searchData){
 			let hiddenField = document.createElement('input');
@@ -256,16 +247,16 @@
 	
 	
 	/* 비밀글 인증 */
-	function authentication(){
+	function authenticationProc(_email){
 		let $password = document.getElementById('password');
 		let authData = {
-			"email":email,
+			"email":_email,
 			"password":$password.value
 		};
 		
 		startLoading('인증중...');
 		$.ajax({
-			url : '${pageContext.request.contextPath}/login/api/check/auth',
+			url : '/login/api/check/auth',
 			headers: {
 	        	"X-CSRF-TOKEN": "${_csrf.token}"
 	        },
@@ -276,17 +267,19 @@
 				stopLoading();
 				if(response.result === 'OK' && response.reason === 'equal'){
 					alert('인증되었습니다.!');
-					$.get('${pageContext.request.contextPath}/board/dview?idx='+idx , data=>{
+					$.get('/board/dview?idx='+idx , data=>{
 						$('#user_info_layer').removeClass('dn');
 						 $('#user_info_layer').empty().append(data);
 					});
 				}else{
 					alert('암호가 일치하지 않습니다.!');
 				}
+				document.getElementById('password').value = '';
 			},
 			 error : function( response ){
 				stopLoading();
 				alert('에러가 발생하였습니다.');
+				document.getElementById('password').value = '';
 			}
 
 		 });

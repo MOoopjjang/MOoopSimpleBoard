@@ -39,7 +39,7 @@
 	 	<div id="user_info_layer" class="layer_wrap dview_layer dn"></div>
 		<script type="text/javascript">
 			function moveRegistry(){
-				 $.get('${pageContext.request.contextPath}/login/registry' , data=>{
+				 $.get('/login/registry' , data=>{
 					 $('#user_info_layer').removeClass('dn');
 					 $('#user_info_layer').empty().append(data);
 				 });

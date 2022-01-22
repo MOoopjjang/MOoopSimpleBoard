@@ -54,7 +54,7 @@ public class UserManagerServiceImpl implements UserManagerService{
 		AuthRepository authRepository = (AuthRepository) daoManager.getRepository(DAO_TYPE.AUTH);
 		
 		Page<UserItemVO> info = null;
-		Sort sort = new Sort(Direction.DESC , "dtCreate");
+		Sort sort = new Sort(Direction.DESC , "createDt");
 		if(MStringUtil.validCheck(category) && MStringUtil.validCheck(text)) {
 			if(category.equals("role")) {
 				info = authRepository.findAllByRole(USER_ROLES.valueOf(text) , PageRequest.of(page, size, sort)).map(convertAtoU);
